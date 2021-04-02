@@ -4,7 +4,11 @@ let gameScreen;
 let endGameScreen;
 
 //Create DOM elements from a string
-const buildDom = (htmlString) =>{}
+const buildDom = (htmlString) =>{
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = htmlString;
+    return tempDiv.children[0];
+}
 
 //SplashScreen create/remove
 const createSplashScreen = () =>{}
