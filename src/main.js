@@ -34,8 +34,40 @@ const removeSplashScreen = () =>{
 }
 
 //GameScreen create/remove
-const creteGameScreen = () =>{}
-const removeGameScreen = () =>{}
+const createGameScreen = () =>{
+    //HTML GameScreen
+    gameScreen = buildDom(`
+        <main class="game-container">
+            <header>
+                <p>My Alchemy Book</p>
+            </header>
+            <div class="canvas-container">
+                <canvas></canvas>
+            </div>
+            <div class="status-container">
+                <div class="score-container">
+                    <span class="label">Score:</span>
+                    <span class="value"></span>
+                </div>
+                <div class="combinations-container">
+                    <span class="label">Combinations:</span>
+                    <span class="value"></span>
+                    <span class="total"></span>
+                </div>
+                <div class="time-container">
+                    <span class="label">Time left:</span>
+                    <span class="value"></span>                    
+                </div>
+            </div>
+        </main>
+    `);
+    document.body.appendChild(gameScreen);
+
+    return gameScreen;
+}
+const removeGameScreen = () =>{
+    gameScreen.remove();
+}
 
 //EndGameScreen create/remove
 const createEndGameScreen = () =>{}
@@ -43,8 +75,9 @@ const removeEndGameScreen = () =>{}
 
 //Setting the game state - start or end game
 const startGame = () => {
-    //removeSplashScreen
+    removeSplashScreen();
     //Si estamos en endGameScreen -- removeEndGameScreen(); si no createGameScreen();
+    createGameScreen();
 
     //Start a new game instance and call start method
     game = new Game(gameScreen);
