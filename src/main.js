@@ -14,7 +14,7 @@ const buildDom = (htmlString) =>{
 const createSplashScreen = () =>{
     //HTML SplashScreen
     splashScreen = buildDom(`
-        <main>
+        <main class="splash-screen">
             <h1>My Alchemy Book</h1>
             <div>
                 <p>Instructions</p>
@@ -38,28 +38,28 @@ const removeSplashScreen = () =>{
 const createGameScreen = () =>{
     //HTML GameScreen
     gameScreen = buildDom(`
-        <main class="game-container">
+        <main class="game game-container">
             <header>
                 <p>My Alchemy Book</p>
             </header>
-            <div class="canvas-container">
-                <canvas></canvas>
-            </div>
             <div class="status-container">
-                <div class="score-container">
-                    <span class="label">Score:</span>
-                    <span class="value"></span>
+                <div class="time-container">
+                    <span class="label">Time left:</span>
+                    <span class="value"></span>                    
                 </div>
                 <div class="combinations-container">
                     <span class="label">Combinations:</span>
                     <span class="value"></span>
                     <span class="total"></span>
                 </div>
-                <div class="time-container">
-                    <span class="label">Time left:</span>
-                    <span class="value"></span>                    
+                <div class="score-container">
+                    <span class="label">Score:</span>
+                    <span class="value"></span>
                 </div>
             </div>
+            <div class="canvas-container">
+                <canvas></canvas>
+            </div>            
         </main>
     `);
     document.body.appendChild(gameScreen);
@@ -93,7 +93,9 @@ const removeEndGameScreen = () =>{
 //Setting the game state - start or end game
 const startGame = () => {
     removeSplashScreen();
-    //Si estamos en endGameScreen -- removeEndGameScreen(); si no createGameScreen();
+    if (endGameScreen) {
+        removeEndGameScreen();
+    }
     createGameScreen();
 
     //Start a new game instance and call start method
@@ -102,8 +104,8 @@ const startGame = () => {
 }
 
 const endGame = (score, time) => {
-    // removeGameScreen();
-    // createEndGameScreen(score, time);
+    removeGameScreen();
+    createEndGameScreen(score, time);
 }
 
 window.addEventListener("load", createSplashScreen);
