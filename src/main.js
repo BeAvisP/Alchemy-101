@@ -29,6 +29,7 @@ const createSplashScreen = () =>{
 
     startButton.addEventListener('click', startGame);
 }
+
 const removeSplashScreen = () =>{
     splashScreen.remove();
 }
@@ -65,13 +66,29 @@ const createGameScreen = () =>{
 
     return gameScreen;
 }
+
 const removeGameScreen = () =>{
     gameScreen.remove();
 }
 
 //EndGameScreen create/remove
-const createEndGameScreen = () =>{}
-const removeEndGameScreen = () =>{}
+const createEndGameScreen = (score, time) =>{
+    const endGameScreen = buildDom(`
+    <main>
+        <h1>GAME OVER</h1>
+        <p>Your score: <span>${score}</span> </p>
+        <button>Restart</button>
+    </main>
+    `);
+    document.body.appendChild(endGameScreen);
+    
+    const button = endGameScreen.querySelector("button");
+    button.addEventListener("click", startGame);   
+}
+
+const removeEndGameScreen = () =>{
+    endGameScreen.remove();
+}
 
 //Setting the game state - start or end game
 const startGame = () => {
