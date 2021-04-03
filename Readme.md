@@ -72,6 +72,7 @@ Class Element(){
     this.name = '';
     this.combinations = [];
 
+    drawElement()
     isCombinable(element){} //Check if two elements can combine, return new element
 }
 ```
