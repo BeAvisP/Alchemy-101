@@ -73,13 +73,41 @@ class Game {
         this.discoveredElements.forEach((element) => {
           if (element.didCollide(this.mouseClickPosition)) {
             console.log(element);
-            //if selectedElements array has < 2 elements ---> add element to selectedElements array.
-            //if > 2 elements ---> animation warning?
+
+            if (this.selectedElements.length < 2) {
+                this.selectedElements.push(element);
+            } else {
+                console.log("Two elements already selected")
+            }
           } 
         });
     }
 
     combineElements() {
-        console.log("CHECK IF CAN COMBINE");
+        if (this.selectedElements.length === 2) {
+            console.log("Check if elements can be combined");
+            console.log(this.selectedElements);
+            if (this.selectedElements[0].areCombinable(this.selectedElements[1])) {
+                console.log("crea nuevo elemento!")
+                let element = this.selectedElements[0].getCombination(this.selectedElements[1]);
+
+                console.log(element);
+
+                //Check if already existis before push and draw
+                this.discoveredElements.push(new Element(this.totalElements, `${element}`, this.canvas));
+
+                this.discoveredElements[this.discoveredElements.length -1].drawElement(this.discoveredElements.length -1);
+                
+                console.log(this.discoveredElements);
+
+                //Clear selection
+                this.selectedElements = [];
+            } else {
+                //Clear selection
+                this.selectedElements = [];
+            }
+        } else {
+            console.log("Select two elements!!!")
+        }
     }
 }
