@@ -1,0 +1,70 @@
+[
+    {
+        "name": "water",
+        "combinations": [
+            {
+                "element": "fire",
+                "result": "steam"
+            },
+            {
+                "element": "earth",
+                "result": "mud"
+            },
+            {
+                "element": "air",
+                "result": "mist"
+            }
+        ]
+    },
+    {
+        "name": "fire",
+        "combinations": [
+             {
+                "element": "water",
+                "result": "steam"
+            },
+            {
+                "element": "earth",
+                "result": "lava"
+            },
+            {
+                "element": "air",
+                "result": "smoke"
+            }
+        ]
+    },
+    {
+        "name": "air",
+        "combinations": [
+             {
+                "element": "water",
+                "result": "mist"
+            },
+            {
+                "element": "earth",
+                "result": "dust"
+            },
+            {
+                "element": "fire",
+                "result": "smoke"
+            }
+        ]
+    },
+    {
+        "name": "earth",
+        "combinations": [
+             {
+                "element": "water",
+                "result": "mud"
+            },
+            {
+                "element": "air",
+                "result": "dust"
+            },
+            {
+                "element": "fire",
+                "result": "lava"
+            }
+        ]
+    }
+]
