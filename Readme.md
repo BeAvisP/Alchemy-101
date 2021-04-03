@@ -208,7 +208,7 @@ Dataset:
         foundElement: false,
         imgSrc: "assets/images/dust.png",
         combinations: [],
-      },
+      }
     ]
 
   ```
