@@ -48,8 +48,6 @@ body {
     flex-direction: column;
 }
 
-
-
 /* ---- GameScreen ---- */
 .game-container {
   background-image: url("/assets/images/game-background.jpg");
