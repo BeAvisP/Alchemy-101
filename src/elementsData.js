@@ -4,7 +4,7 @@ class ElementsData {
       {
         name: "water",
         foundElement: true,
-        imgSrc: "/images/water.png",
+        imgSrc: "assets/images/water.png",
         combinations: [
           {
             element: "fire",
@@ -23,7 +23,7 @@ class ElementsData {
       {
         name: "fire",
         foundElement: true,
-        imgSrc: "/images/fire.png",
+        imgSrc: "assets/images/fire.png",
         combinations: [
           {
             element: "water",
@@ -42,7 +42,7 @@ class ElementsData {
       {
         name: "air",
         foundElement: true,
-        imgSrc: "/images/air.png",
+        imgSrc: "assets/images/air.png",
         combinations: [
           {
             element: "water",
@@ -61,7 +61,7 @@ class ElementsData {
       {
         name: "earth",
         foundElement: true,
-        imgSrc: "/images/earth.png",
+        imgSrc: "assets/images/earth.png",
         combinations: [
           {
             element: "water",
@@ -80,37 +80,37 @@ class ElementsData {
       {
         name: "steam",
         foundElement: false,
-        imgSrc: "/images/steam.png",
+        imgSrc: "assets/images/steam.png",
         combinations: [],
       },
       { 
         name: "mud",
         foundElement: false,
-        imgSrc: "/images/mud.png",
+        imgSrc: "assets/images/mud.png",
         combinations: [],
       },
       {
         name: "mist",
         foundElement: false,
-        imgSrc: "/images/mist.png",
+        imgSrc: "assets/images/mist.png",
         combinations: [],
       },
       {
         name: "lava",
         foundElement: false,
-        imgSrc: "/images/lava.png",
+        imgSrc: "assets/images/lava.png",
         combinations: [],
       },
       {
         name: "smoke",
         foundElement: false,
-        imgSrc: "/images/smoke.png",
+        imgSrc: "assets/images/smoke.png",
         combinations: [],
       },
       {
         name: "dust",
         foundElement: false,
-        imgSrc: "/images/dust.png",
+        imgSrc: "assets/images/dust.png",
         combinations: [],
       },
     ];
