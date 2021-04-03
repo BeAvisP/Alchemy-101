@@ -75,10 +75,3 @@ body {
     align-items: center;
     justify-content: center;
 }
-
-.canvas-container canvas {
-    height: 70%;
-    width: 63%;
-    margin-bottom: 8%;
-    margin-right: 2%;
-}
