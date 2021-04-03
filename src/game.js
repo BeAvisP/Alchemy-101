@@ -9,6 +9,7 @@ class Game {
         this.discoveredElements = [];
         this.totalElements = new ElementsData().elementsList;
         this.selectedElements = [];
+        this.mouseClickPosition = [];
     }
 
     //Create `ctx`, a `player` and start the Canvas loop
@@ -46,18 +47,39 @@ class Game {
         // Show all available elements - 
 
         // addEventListener click mouse
-        const getCursorPosition = (canvas, event) => {
-            const rect = canvas.getBoundingClientRect()
-            const x = event.clientX - rect.left
-            const y = event.clientY - rect.top
-            console.log("x: " + x + " y: " + y)
+        const handleMouseDown = (canvas, event) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            return [x, y];
         }
         
-        this.canvas.addEventListener('mousedown', (e) => {
-            getCursorPosition(this.canvas, e);
+        this.canvas.addEventListener('click', (event) => {
+            this.mouseClickPosition = handleMouseDown(this.canvas, event);
+            console.log(this.mouseClickPosition);    
+            this.checkElementSelection();      
         });
 
+        this.canvas.addEventListener('contextmenu', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            this.combineElements();
+        });
+    }
 
-        //this.startLoop()
+    checkElementSelection() {
+        //this.enemies contiene todos los enemigos que hemos ido creando durante el juego.
+        //iteramos sobre este array para comprobar si cada uno de los enemigos ha colisionado con el player
+        this.discoveredElements.forEach((element) => {
+          if (element.didCollide(this.mouseClickPosition)) {
+            console.log(element);
+            //if selectedElements array has < 2 elements ---> add element to selectedElements array.
+            //if > 2 elements ---> animation warning?
+          } 
+        });
+    }
+
+    combineElements() {
+        console.log("CHECK IF CAN COMBINE");
     }
 }

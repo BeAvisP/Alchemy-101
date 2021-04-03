@@ -100,7 +100,7 @@ const startGame = () => {
 
     //Start a new game instance and call start method
     game = new Game(gameScreen);
-    game.start();
+    game.start();   
 }
 
 const endGame = (score, time) => {
