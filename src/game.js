@@ -8,6 +8,8 @@ class Game {
         this.timeElement = undefined;
         this.discoveredElements = [];
         this.totalElements = new ElementsData().elementsList;
+        this.timer = new Timer();
+        this.timerIntervalId;
         this.selectedElements = [];
         this.mouseClickPosition = [];
     }
@@ -29,6 +31,9 @@ class Game {
         this.containerHeight = this.canvasContainer.clientHeight;
         this.canvas.setAttribute("width", this.containerWidth);
         this.canvas.setAttribute("height", this.containerHeight);
+
+        //Start timer
+        this.timerIntervalId = setInterval(this.timer.update.bind(this.timer), 1000);
 
         // this.player = new Player();       
 
