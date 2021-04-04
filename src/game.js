@@ -10,6 +10,7 @@ class Game {
         this.totalElements = new ElementsData().elementsList;
         this.timer = new Timer();
         this.timerIntervalId;
+        this.printTimerId;
         this.selectedElements = [];
         this.mouseClickPosition = [];
     }
@@ -34,6 +35,11 @@ class Game {
 
         //Start timer
         this.timerIntervalId = setInterval(this.timer.update.bind(this.timer), 1000);
+
+        this.printTimerId = setInterval(() => {
+            let timeStr = this.timer.getStringTimer();
+            this.timeElement.innerHTML = timeStr;
+          }, 1);
 
         // this.player = new Player();       
 
