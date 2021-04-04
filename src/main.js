@@ -49,7 +49,7 @@ const createGameScreen = () =>{
                 </div>
                 <div class="combinations-container">
                     <span class="label">Combinations:</span>
-                    <span class="value"></span>
+                    <span class="value"></span> / 
                     <span class="total"></span>
                 </div>
                 <div class="score-container">
@@ -105,7 +105,7 @@ const startGame = () => {
 
 const endGame = (score, time) => {
     removeGameScreen();
-    createEndGameScreen(score, time);
+    createEndGameScreen(score, time, elementsDiscovered);
 }
 
 window.addEventListener("load", createSplashScreen);
