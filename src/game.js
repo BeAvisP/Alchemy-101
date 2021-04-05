@@ -88,6 +88,12 @@ class Game {
             //If there's' no previous selectedElements -> push clicked element to array
             if (this.selectedElements.length < 2) {
                 this.selectedElements.push(element);
+
+                //Draw stroke arround img on selected
+                this.ctx.beginPath(); 
+                this.ctx.strokeStyle = '#fff';  // some color/style
+                this.ctx.lineWidth = 2;         // thickness
+                this.ctx.strokeRect(element.imagePosition[0], element.imagePosition[1], element.imgSize, element.imgSize);
             } else {
                 //TODO
                 //Update canvas with message??
@@ -112,7 +118,7 @@ class Game {
                         } else {
                             el.foundElement = true;
                             this.player.updateScore(this.points);
-                            this.updateGameScreen();
+                            //PRINT ELEMENT FOUND
                         }                        
                     }
                 }); 
@@ -120,11 +126,15 @@ class Game {
                 //Wrong combination discount time
                 this.timer.timeLeft = this.timer.timeLeft - 20;
                 this.player.updateTime(this.timer.getStringTimer());
+
+                //PRINT ERROR
             }
-            //Clear selection
+            // Clear elements selection
             this.selectedElements = [];
+            this.updateGameScreen();
         } else {
             console.log("Select two elements!!!")
+            //PRINT ERROR
         }
     }
 
@@ -132,6 +142,8 @@ class Game {
         //Clear and redraw canvas 
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.totalElementsArr.forEach((el, index) => el.drawElement(index));
+
+        console.log(this.totalElementsArr);
         
         //Update combinations counter
         let elementsFound = this.totalElementsArr.filter((el) => el.foundElement).length;
