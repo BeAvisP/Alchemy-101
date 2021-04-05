@@ -4,7 +4,7 @@ class ElementsData {
       {
         name: "water",
         foundElement: true,
-        imgSrc: "assets/images/water.png",
+        imgSrc: "assets/images/water-drop.png",
         combinations: [
           {
             element: "fire",
@@ -42,7 +42,7 @@ class ElementsData {
       {
         name: "air",
         foundElement: true,
-        imgSrc: "assets/images/air.png",
+        imgSrc: "assets/images/wind-slap.png",
         combinations: [
           {
             element: "water",
@@ -61,7 +61,7 @@ class ElementsData {
       {
         name: "earth",
         foundElement: true,
-        imgSrc: "assets/images/earth.png",
+        imgSrc: "assets/images/stone-block.png",
         combinations: [
           {
             element: "water",
