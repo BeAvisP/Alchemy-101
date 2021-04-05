@@ -1,6 +1,8 @@
 class Element {
     constructor(elements, name, canvas){
         let getElement = elements.filter(el => el.name === name)[0];
+
+        console.log(elements.filter(el => el.name === name)[0]);
         this.name = getElement.name;
         this.foundElement = getElement.foundElement;
         this.combinations = getElement.combinations;
@@ -10,27 +12,47 @@ class Element {
         this.ctx = this.canvas.getContext("2d");
         this.imagePosition = [];
         this.imgSize = 100;
-    }  
-    
-    initX = 50;
-    initY = 50;
+        this.initX = 50;
+        this.initY = 50;  
+    }      
     
     drawElement(index) {
-		const img = document.createElement('img');
-		img.src = this.imgSrc;
-       
+        const img = document.createElement('img');
+        if (this.foundElement) {
+            img.src = this.imgSrc;
+        } else {
+            img.src = "/assets/images/uncertainty.png"
+        }
+		
         let newX = this.initX + (150*index);
+        let newY = this.initY;
+        
         //TODO
         //if newX will collide with canvas edge --> modify Y and X value
+        if (this.isOutOfCanvas(newX + this.imgSize)) {
+            newX = this.initX;
+            newY = this.initY + 150;
+        }
 
-        this.imagePosition = [newX, this.initY]
+        this.imagePosition = [newX, newY]
 
         img.onload = () => {
-            this.ctx.drawImage(img, newX, this.initY, this.imgSize, this.imgSize);
+            this.ctx.drawImage(img, newX, newY, this.imgSize, this.imgSize);
         };
+
+        //Update newX value for next drawElement()
+        this.newX = this.newX + 150;
 	}
 
-    didCollide(mouseClick) {
+    isOutOfCanvas(imgX) {
+        const screenRight = this.canvas.width;
+        if (screenRight <= imgX){
+            return true;
+        }
+        return false;
+      }
+
+    didGetClick(mouseClick) {
         //Get all sides of the img
         const elementLeft = this.imagePosition[0];
         const elementRight = this.imagePosition[0] + this.imgSize;

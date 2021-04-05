@@ -1,21 +1,22 @@
 class Timer {
     constructor() {
-        this.timeLeft = 60; //seconds
+        this.timeLeft = 10; //seconds
+        this.intervalId;
     }
 
     start() {
-        return setInterval(this.update, 1000);
+        this.intervalId = setInterval(this.update.bind(this), 1000);
     }
 
-    stop(intervalId) {
-        cancelInterval(intervalId);
+    stop() {
+        clearInterval(this.intervalId);
     }
 
     update(){
         this.timeLeft = this.timeLeft - 1;
-        if(this.timeLeft >= 0)
+        if(this.timeLeft >= 0) {
             console.log(this.timeLeft);
-        else {
+        } else {
             console.log("Timeout");
         }
     }

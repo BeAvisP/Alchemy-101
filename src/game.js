@@ -6,13 +6,14 @@ class Game {
         this.gameScreen = gameScreen;
         this.scoreElement = undefined;
         this.timeElement = undefined;
-        this.discoveredElements = [];
-        this.totalElements = new ElementsData().elementsList;
+        this.totalElementsArr = [];
+        this.elementsDataset = new ElementsData().elementsList;
         this.timer = new Timer();
         this.timerIntervalId;
         this.printTimerId;
         this.selectedElements = [];
         this.mouseClickPosition = [];
+        this.status = 'start'; //gameOver (timeout), winGame (all combinations in time)
     }
 
     //Create `ctx`, a `player` and start the Canvas loop
@@ -28,34 +29,37 @@ class Game {
 
         // Set the canvas dimensions
         this.canvasContainer = this.gameScreen.querySelector(".canvas-container");
-        this.containerWidth = this.canvasContainer.clientWidth;
-        this.containerHeight = this.canvasContainer.clientHeight;
+        this.containerWidth = (this.canvasContainer.clientWidth/100)*80;
+        this.containerHeight = (this.canvasContainer.clientHeight/100)*80;
         this.canvas.setAttribute("width", this.containerWidth);
         this.canvas.setAttribute("height", this.containerHeight);
 
         //Start timer
-        this.timerIntervalId = setInterval(this.timer.update.bind(this.timer), 1000);
-
+        this.timer.start();
+        //Print timer
         this.printTimerId = setInterval(() => {
-            let timeStr = this.timer.getStringTimer();
-            this.timeElement.innerHTML = timeStr;
-          }, 1);
+            if (this.timer.timeLeft >= 0) {
+                let timeStr = this.timer.getStringTimer();
+                this.timeElement.innerHTML = timeStr;
+            } else if (this.timer.timeLeft < 0) {
+                this.timer.stop();
+                clearInterval(this.printTimerId);
+                this.gameOver();
+            }
+        }, 1);
 
-        // this.player = new Player();       
+        this.player = new Player();     
 
-        // Create basic elements - water, fire, air, earth
-        const water = new Element(this.totalElements, 'water', this.canvas);
-        const fire = new Element(this.totalElements, 'fire',  this.canvas);
-        const air = new Element(this.totalElements, 'air',  this.canvas);
-        const earth = new Element(this.totalElements, 'earth',  this.canvas);
-
-        this.discoveredElements.push(water, fire, air, earth);        
-
-        this.discoveredElements.forEach((el, index) => {
-            el.drawElement(index);
+        //Create array of elements with the elements dataset
+        this.elementsDataset.forEach((el) => {
+            this.totalElementsArr.push(new Element(this.elementsDataset, `${el.name}`, this.canvas));
         });
 
-        // Show all available elements - 
+        this.combinationsElement.innerHTML = this.totalElementsArr.filter((el) => el.foundElement).length;
+        this.totalCombinationsElement.innerHTML = this.totalElementsArr.length;
+
+        //Draw all elements, undiscovered will show an incognito icon.
+        this.totalElementsArr.forEach((el, index) => el.drawElement(index));
 
         // addEventListener click mouse
         const handleMouseDown = (canvas, event) => {
@@ -76,18 +80,22 @@ class Game {
             event.stopPropagation();
             this.combineElements();
         });
+
+        //TODO - es necesario?
+        // this.startLoop();
     }
 
     checkElementSelection() {
-        //this.enemies contiene todos los enemigos que hemos ido creando durante el juego.
-        //iteramos sobre este array para comprobar si cada uno de los enemigos ha colisionado con el player
-        this.discoveredElements.forEach((element) => {
-          if (element.didCollide(this.mouseClickPosition)) {
-            console.log(element);
-
+        //this.discoveredElements has all the discovered elements we found during the game.
+        //Loop the array to check if any of the element img was clicked with right mouse button
+        this.totalElementsArr.forEach((element) => {
+          if (element.didGetClick(this.mouseClickPosition)) {
+            //If there're no previous selectedElements -> push clicked element to array
             if (this.selectedElements.length < 2) {
                 this.selectedElements.push(element);
             } else {
+                //TODO
+                //Update canvas with message??
                 console.log("Two elements already selected")
             }
           } 
@@ -104,12 +112,21 @@ class Game {
 
                 console.log(element);
 
-                //Check if already existis before push and draw
-                this.discoveredElements.push(new Element(this.totalElements, `${element}`, this.canvas));
+                //Update element status foundElement to true
+                this.totalElementsArr.filter((el) => {
+                    if (el.name === element[0]){
+                        el.foundElement = true;
+                    }
+                });
 
-                this.discoveredElements[this.discoveredElements.length -1].drawElement(this.discoveredElements.length -1);
-                
-                console.log(this.discoveredElements);
+                //TODO logic for givin point when hit corrrect combination and sustract time when wrong combination or already made combination.
+
+                //clear canvas
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                //Redraw elements array in canvas
+                this.totalElementsArr.forEach((el, index) => el.drawElement(index));
+                //Update combinations counter
+                this.combinationsElement.innerHTML = this.totalElementsArr.filter((el) => el.foundElement).length;
 
                 //Clear selection
                 this.selectedElements = [];
@@ -120,5 +137,10 @@ class Game {
         } else {
             console.log("Select two elements!!!")
         }
+    }
+
+    gameOver() {
+        this.status = 'gameOver';
+        endGame(this.score, this.time, this.totalElementsArr.length);
     }
 }
