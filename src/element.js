@@ -86,6 +86,6 @@ class Element {
 
     getCombination(element) {
         return this.combinations.filter(combination => combination.element === element.name)
-        .map(combination => combination.result);
+        .map(combination => combination.result)[0];
     }
 }

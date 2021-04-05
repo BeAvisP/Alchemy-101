@@ -14,6 +14,7 @@ class Game {
         this.selectedElements = [];
         this.mouseClickPosition = [];
         this.status = 'start'; //gameOver (timeout), winGame (all combinations in time)
+        this.points = 40;
     }
 
     //Create `ctx`, a `player` and start the Canvas loop
@@ -40,6 +41,7 @@ class Game {
         this.printTimerId = setInterval(() => {
             if (this.timer.timeLeft >= 0) {
                 let timeStr = this.timer.getStringTimer();
+                this.player.updateTime(this.timer.getStringTimer());
                 this.timeElement.innerHTML = timeStr;
             } else if (this.timer.timeLeft < 0) {
                 this.timer.stop();
@@ -109,30 +111,41 @@ class Game {
             if (this.selectedElements[0].areCombinable(this.selectedElements[1])) {
                 console.log("crea nuevo elemento!")
                 let element = this.selectedElements[0].getCombination(this.selectedElements[1]);
-
-                console.log(element);
-
-                //Update element status foundElement to true
+                
+                //TODO refactor to new method???
+                //Check if element isn't found yet and update to true + update player score
                 this.totalElementsArr.filter((el) => {
-                    if (el.name === element[0]){
-                        el.foundElement = true;
+                    if (el.name === element){
+                        if (el.foundElement) {
+                            //Descontar tiempo
+                            this.timer.timeLeft = this.timer.timeLeft - 10;
+                        } else {
+                            el.foundElement = true;
+                            this.player.updateScore(this.points);
+                        }                        
                     }
-                });
-
-                //TODO logic for givin point when hit corrrect combination and sustract time when wrong combination or already made combination.
+                });              
 
                 //clear canvas
                 this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
                 //Redraw elements array in canvas
                 this.totalElementsArr.forEach((el, index) => el.drawElement(index));
                 //Update combinations counter
-                this.combinationsElement.innerHTML = this.totalElementsArr.filter((el) => el.foundElement).length;
+                let elementsFound = this.totalElementsArr.filter((el) => el.foundElement).length;
+                this.combinationsElement.innerHTML = elementsFound;
+                
+                this.player.updateElementsFound(elementsFound);
+
+                this.scoreElement.innerHTML = this.player.score;
 
                 //Clear selection
                 this.selectedElements = [];
             } else {
                 //Clear selection
                 this.selectedElements = [];
+                //Wrong combination discount time
+                this.timer.timeLeft = this.timer.timeLeft - 20;
+                this.player.updateTime(this.timer.getStringTimer());
             }
         } else {
             console.log("Select two elements!!!")
@@ -141,6 +154,6 @@ class Game {
 
     gameOver() {
         this.status = 'gameOver';
-        endGame(this.score, this.time, this.totalElementsArr.length);
+        endGame(this.player);
     }
 }

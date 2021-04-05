@@ -54,7 +54,7 @@ const createGameScreen = () =>{
                 </div>
                 <div class="score-container">
                     <span class="label">Score:</span>
-                    <span class="value"></span>
+                    <span class="value">0</span>
                 </div>
             </div>
             <div class="canvas-container">
@@ -72,11 +72,13 @@ const removeGameScreen = () =>{
 }
 
 //EndGameScreen create/remove
-const createEndGameScreen = (score, time, elementsFound) =>{
+const createEndGameScreen = (player) =>{
     endGameScreen = buildDom(`
     <main class="end-screen">
         <h1>GAME OVER</h1>
-        <p>Your score: <span>${score}</span> </p>
+        <p>You found ${player.elementsFound} elements!!</p>
+        <p>Your score: <span>${player.score}</span> </p>
+        <p>Time left: ${player.time}</p>
         <button>Restart</button>
     </main>
     `);
@@ -105,9 +107,9 @@ const startGame = () => {
     game.start();   
 }
 
-const endGame = (score, time, elementsFound) => {
+const endGame = (player) => {
     removeGameScreen();
-    createEndGameScreen(score, time, elementsFound);
+    createEndGameScreen(player);
 }
 
 window.addEventListener("load", createSplashScreen);
