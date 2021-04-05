@@ -35,7 +35,7 @@ body {
 }
 
 /* ---- Splashscreen ---- */
-.splash-screen{
+.splash-screen, .end-screen{
     background-image: url("/assets/images/background.jpg");
     width: 100%;
     height: 100vh;
