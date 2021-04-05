@@ -1,23 +1,22 @@
 class Game {
     constructor(gameScreen) {
+        this.gameScreen = gameScreen;
         this.canvas = null;
         this.ctx = null;
-        this.player = null;
-        this.gameScreen = gameScreen;
-        this.scoreElement = undefined;
-        this.timeElement = undefined;
-        this.totalElementsArr = [];
         this.elementsDataset = new ElementsData().elementsList;
         this.timer = new Timer();
+        this.player = null;
         this.timerIntervalId;
         this.printTimerId;
-        this.selectedElements = [];
+        // this.scoreElement = undefined;
+        // this.timeElement = undefined;
         this.mouseClickPosition = [];
+        this.totalElementsArr = [];
+        this.selectedElements = [];
+        this.points = 40; //DELETE IN FUTURE -> INCLUDE IN ELEMENTS DATASET AS AN ATTRIBUTE (DIFF ELEMENTS WILL GIVE DIFF POINTS)
         this.status = 'start'; //gameOver (timeout), winGame (all combinations in time)
-        this.points = 40;
     }
 
-    //Create `ctx`, a `player` and start the Canvas loop
     start() {
         this.scoreElement = this.gameScreen.querySelector('.score-container .value');
         this.timeElement = this.gameScreen.querySelector('.time-container .value');
@@ -35,9 +34,9 @@ class Game {
         this.canvas.setAttribute("width", this.containerWidth);
         this.canvas.setAttribute("height", this.containerHeight);
 
-        //Start timer
+        // Start timer
         this.timer.start();
-        //Print timer
+        // Print timer
         this.printTimerId = setInterval(() => {
             if (this.timer.timeLeft >= 0) {
                 let timeStr = this.timer.getStringTimer();
@@ -50,49 +49,43 @@ class Game {
             }
         }, 1);
 
+        // Create the player.
         this.player = new Player();     
 
-        //Create array of elements with the elements dataset
+        // Create array of elements from the elements objects dataset
         this.elementsDataset.forEach((el) => {
             this.totalElementsArr.push(new Element(this.elementsDataset, `${el.name}`, this.canvas));
         });
 
-        this.combinationsElement.innerHTML = this.totalElementsArr.filter((el) => el.foundElement).length;
-        this.totalCombinationsElement.innerHTML = this.totalElementsArr.length;
-
-        //Draw all elements, undiscovered will show an incognito icon.
-        this.totalElementsArr.forEach((el, index) => el.drawElement(index));
-
-        // addEventListener click mouse
-        const handleMouseDown = (canvas, event) => {
-            const rect = canvas.getBoundingClientRect();
-            const x = event.clientX - rect.left;
-            const y = event.clientY - rect.top;
-            return [x, y];
-        }
+        // Draw all elements + update values HTML values (score and combinations)
+        this.updateGameScreen();
         
+        // addEventListener left mouse click (select elements)
         this.canvas.addEventListener('click', (event) => {
-            this.mouseClickPosition = handleMouseDown(this.canvas, event);
-            console.log(this.mouseClickPosition);    
+            this.mouseClickPosition = this.handleMouseDown(this.canvas, event);  
             this.checkElementSelection();      
         });
-
+        // addEventListener right mouse click (combine elements)
         this.canvas.addEventListener('contextmenu', (event) => {
             event.preventDefault();
             event.stopPropagation();
             this.combineElements();
         });
+    }
 
-        //TODO - es necesario?
-        // this.startLoop();
+    // addEventListener click mouse
+    handleMouseDown = (canvas, event) => {
+        const rect = canvas.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+        return [x, y];
     }
 
     checkElementSelection() {
-        //this.discoveredElements has all the discovered elements we found during the game.
-        //Loop the array to check if any of the element img was clicked with right mouse button
-        this.totalElementsArr.forEach((element) => {
+        // Loop through the discovered elements and check if one of them has been clicked.
+        this.totalElementsArr.filter((el) => el.foundElement).forEach((element) => {
           if (element.didGetClick(this.mouseClickPosition)) {
-            //If there're no previous selectedElements -> push clicked element to array
+            //If there's' no previous selectedElements -> push clicked element to array
             if (this.selectedElements.length < 2) {
                 this.selectedElements.push(element);
             } else {
@@ -105,55 +98,56 @@ class Game {
     }
 
     combineElements() {
+        const [element1, element2] = this.selectedElements;
         if (this.selectedElements.length === 2) {
-            console.log("Check if elements can be combined");
-            console.log(this.selectedElements);
-            if (this.selectedElements[0].areCombinable(this.selectedElements[1])) {
-                console.log("crea nuevo elemento!")
-                let element = this.selectedElements[0].getCombination(this.selectedElements[1]);
-                
-                //TODO refactor to new method???
-                //Check if element isn't found yet and update to true + update player score
+            if (element1.areCombinable(element2)) {
+                let combinedElement = element1.getCombination(element2);
+                // Check if combinedElement is new                 
                 this.totalElementsArr.filter((el) => {
-                    if (el.name === element){
+                    if (el.name === combinedElement){
+                        // If element is already discovered -> reduce time left by 10secs.
                         if (el.foundElement) {
-                            //Descontar tiempo
                             this.timer.timeLeft = this.timer.timeLeft - 10;
+                        // If new -> update foundElement to true + update player score.
                         } else {
                             el.foundElement = true;
                             this.player.updateScore(this.points);
+                            this.updateGameScreen();
                         }                        
                     }
-                });              
-
-                //clear canvas
-                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-                //Redraw elements array in canvas
-                this.totalElementsArr.forEach((el, index) => el.drawElement(index));
-                //Update combinations counter
-                let elementsFound = this.totalElementsArr.filter((el) => el.foundElement).length;
-                this.combinationsElement.innerHTML = elementsFound;
-                
-                this.player.updateElementsFound(elementsFound);
-
-                this.scoreElement.innerHTML = this.player.score;
-
-                //Clear selection
-                this.selectedElements = [];
+                }); 
             } else {
-                //Clear selection
-                this.selectedElements = [];
                 //Wrong combination discount time
                 this.timer.timeLeft = this.timer.timeLeft - 20;
                 this.player.updateTime(this.timer.getStringTimer());
             }
+            //Clear selection
+            this.selectedElements = [];
         } else {
             console.log("Select two elements!!!")
         }
     }
 
+    updateGameScreen() {
+        //Clear and redraw canvas 
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.totalElementsArr.forEach((el, index) => el.drawElement(index));
+        
+        //Update combinations counter
+        let elementsFound = this.totalElementsArr.filter((el) => el.foundElement).length;
+        this.combinationsElement.innerHTML = elementsFound;
+        this.totalCombinationsElement.innerHTML = this.totalElementsArr.length;
+        
+        //Update player elementsFound 
+        this.player.updateElementsFound(elementsFound);
+        
+        //Update player score in HTML
+        this.scoreElement.innerHTML = this.player.score;
+    }
+
     gameOver() {
         this.status = 'gameOver';
+        this.player.updateTime('00:00');
         endGame(this.player);
     }
 }

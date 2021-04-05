@@ -94,9 +94,7 @@ const removeEndGameScreen = () =>{
 
 //Setting the game state - start or end game
 const startGame = () => {
-    console.log(splashScreen);
     removeSplashScreen();
-    console.log(endGameScreen);
     if (endGameScreen) {
         removeEndGameScreen();
     }

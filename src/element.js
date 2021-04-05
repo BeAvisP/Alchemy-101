@@ -1,8 +1,7 @@
 class Element {
     constructor(elements, name, canvas){
         let getElement = elements.filter(el => el.name === name)[0];
-
-        console.log(elements.filter(el => el.name === name)[0]);
+        
         this.name = getElement.name;
         this.foundElement = getElement.foundElement;
         this.combinations = getElement.combinations;
@@ -27,9 +26,9 @@ class Element {
         let newX = this.initX + (150*index);
         let newY = this.initY;
         
-        //TODO
         //if newX will collide with canvas edge --> modify Y and X value
         if (this.isOutOfCanvas(newX + this.imgSize)) {
+            //TODO -- FIX THIS!
             newX = this.initX;
             newY = this.initY + 150;
         }
@@ -73,11 +72,9 @@ class Element {
     }
 
     areCombinable(element) {
-        console.log("Checking!")
         let canCombine = false;
         this.combinations.forEach(combination => {            
             if (combination.element === element.name) {
-                console.log(combination.result);
                 canCombine = true;
             }
         });
