@@ -22,6 +22,7 @@ class Game {
         this.timeElement = this.gameScreen.querySelector('.time-container .value');
         this.combinationsElement = this.gameScreen.querySelector('.combinations-container .value');
         this.totalCombinationsElement = this.gameScreen.querySelector('.combinations-container .total');
+        this.modalCanvas = this.gameScreen.querySelector('.modal-canvas');
 
         // Get and create the canvas and it's context
         this.canvas = this.gameScreen.querySelector("canvas");
@@ -89,15 +90,22 @@ class Game {
             if (this.selectedElements.length < 2) {
                 this.selectedElements.push(element);
 
-                //Draw stroke arround img on selected
+                //TODO CREATE METHOD FOR DRAW-SELECTION
+                //Draw circle with blur arround img on selected
+                this.ctx.save();
                 this.ctx.beginPath(); 
-                this.ctx.strokeStyle = '#fff';  // some color/style
-                this.ctx.lineWidth = 2;         // thickness
-                this.ctx.strokeRect(element.imagePosition[0], element.imagePosition[1], element.imgSize, element.imgSize);
+                this.ctx.lineWidth = 3; 
+                this.ctx.shadowBlur = 15;
+                this.ctx.shadowColor = "white";
+                this.ctx.arc(element.imagePosition[0]+50, element.imagePosition[1]+50, element.imgSize/2, 0*Math.PI, 2 * Math.PI);
+                this.ctx.stroke();
+                this.ctx.closePath();
+                this.ctx.restore();
+
             } else {
-                //TODO
-                //Update canvas with message??
-                console.log("Two elements already selected")
+                this.modalCanvas.innerHTML = "You have two elements selected. Right mouse click to combine"
+                this.modalCanvas.style.visibility = 'visible';
+                setTimeout(() => {this.modalCanvas.style.visibility = 'hidden'},2000);
             }
           } 
         });
@@ -114,11 +122,26 @@ class Game {
                         // If element is already discovered -> reduce time left by 10secs.
                         if (el.foundElement) {
                             this.timer.timeLeft = this.timer.timeLeft - 10;
+                            // Show error in modal-canvas div
+                            this.modalCanvas.classList.add('error');
+                            this.modalCanvas.innerHTML = `You've already have discovered ${el.name}. Time left reduce by 10 seconds.`
+                            this.modalCanvas.style.visibility = 'visible';
+                            setTimeout(() => {
+                                this.modalCanvas.style.visibility = 'hidden';
+                                this.modalCanvas.classList.remove('error');
+                            },1000);
                         // If new -> update foundElement to true + update player score.
                         } else {
                             el.foundElement = true;
                             this.player.updateScore(this.points);
-                            //PRINT ELEMENT FOUND
+                            // Display discovered element in modal-canvas div
+                            this.modalCanvas.classList.add('correct');
+                            this.modalCanvas.innerHTML = `You've discovered ${el.name} combining ${element1.name} and ${element2.name}`
+                            this.modalCanvas.style.visibility = 'visible';
+                            setTimeout(() => {
+                                this.modalCanvas.style.visibility = 'hidden'; 
+                                this.modalCanvas.classList.remove('correct');
+                            },2000);
                         }                        
                     }
                 }); 
@@ -126,22 +149,34 @@ class Game {
                 //Wrong combination discount time
                 this.timer.timeLeft = this.timer.timeLeft - 20;
                 this.player.updateTime(this.timer.getStringTimer());
-
-                //PRINT ERROR
+                
+                // Show error in modal-canvas div
+                this.modalCanvas.classList.add('error');
+                this.modalCanvas.innerHTML = `Wrong: ${element1.name} and ${element2.name} can't be combined. Time left reduce by 20 seconds.`
+                this.modalCanvas.style.visibility = 'visible';
+                setTimeout(() => {
+                    this.modalCanvas.style.visibility = 'hidden';
+                    this.modalCanvas.classList.remove('error');
+                },1000);
             }
             // Clear elements selection
             this.selectedElements = [];
             this.updateGameScreen();
         } else {
-            console.log("Select two elements!!!")
-            //PRINT ERROR
+            this.modalCanvas.classList.add('error');
+            this.modalCanvas.innerHTML = `You must select two elements before combine!`
+            this.modalCanvas.style.visibility = 'visible';
+            setTimeout(() => {
+                this.modalCanvas.style.visibility = 'hidden';
+                this.modalCanvas.classList.remove('error');
+            },1000);
         }
     }
 
     updateGameScreen() {
         //Clear and redraw canvas 
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.totalElementsArr.forEach((el, index) => el.drawElement(index));
+        this.totalElementsArr.forEach((el, index) => el.drawElement(index, this.totalElementsArr.length));
 
         console.log(this.totalElementsArr);
         
