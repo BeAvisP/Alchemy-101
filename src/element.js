@@ -15,7 +15,11 @@ class Element {
         this.initY = 50;  
     }      
     
-    drawElement(index) {
+    drawElement(index, totalElements) {
+        let rows = totalElements / 5;
+
+        console.log(this.name, index/rows);
+
         const img = document.createElement('img');
         if (this.foundElement) {
             img.src = this.imgSrc;
@@ -28,9 +32,16 @@ class Element {
         
         //if newX will collide with canvas edge --> modify Y and X value
         if (this.isOutOfCanvas(newX + this.imgSize)) {
-            //TODO -- FIX THIS!
-            newX = this.initX;
-            newY = this.initY + 150;
+
+            //calc el total de elements /5 para saber la linea de Y + posicion de X
+
+            if(index > 4 && index <= 9) {
+                let newIndex = index - 1 - 4;
+                newY = this.initY + 150;
+                newX = this.initX + (150*newIndex);
+            } else {
+                console.log("calc!")
+            }            
         }
 
         this.imagePosition = [newX, newY]
@@ -42,6 +53,19 @@ class Element {
         //Update newX value for next drawElement()
         this.newX = this.newX + 150;
 	}
+
+    drawSelection() {
+        //Draw circle with blur arround img on selected
+        this.ctx.save();
+        this.ctx.beginPath(); 
+        this.ctx.lineWidth = 3; 
+        this.ctx.shadowBlur = 15;
+        this.ctx.shadowColor = "white";
+        this.ctx.arc(this.imagePosition[0]+50, this.imagePosition[1]+50, this.imgSize/2, 0*Math.PI, 2 * Math.PI);
+        this.ctx.stroke();
+        this.ctx.closePath();
+        this.ctx.restore();
+    }
 
     isOutOfCanvas(imgX) {
         const screenRight = this.canvas.width;

@@ -89,18 +89,9 @@ class Game {
             //If there's' no previous selectedElements -> push clicked element to array
             if (this.selectedElements.length < 2) {
                 this.selectedElements.push(element);
-
-                //TODO CREATE METHOD FOR DRAW-SELECTION
-                //Draw circle with blur arround img on selected
-                this.ctx.save();
-                this.ctx.beginPath(); 
-                this.ctx.lineWidth = 3; 
-                this.ctx.shadowBlur = 15;
-                this.ctx.shadowColor = "white";
-                this.ctx.arc(element.imagePosition[0]+50, element.imagePosition[1]+50, element.imgSize/2, 0*Math.PI, 2 * Math.PI);
-                this.ctx.stroke();
-                this.ctx.closePath();
-                this.ctx.restore();
+                
+                // //Draw circle with blur arround img on selected
+                element.drawSelection();
 
             } else {
                 this.modalCanvas.innerHTML = "You have two elements selected. Right mouse click to combine"
