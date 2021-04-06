@@ -105,7 +105,7 @@ class Game {
             } else {
                 this.modalCanvas.innerHTML = "You have two elements selected. Right mouse click to combine"
                 this.modalCanvas.style.visibility = 'visible';
-                setTimeout(() => {this.modalCanvas.style.visibility = 'hidden'},2000);
+                setTimeout(() => {this.modalCanvas.style.visibility = 'hidden'},4000);
             }
           } 
         });
@@ -129,7 +129,7 @@ class Game {
                             setTimeout(() => {
                                 this.modalCanvas.style.visibility = 'hidden';
                                 this.modalCanvas.classList.remove('error');
-                            },1000);
+                            },4000);
                         // If new -> update foundElement to true + update player score.
                         } else {
                             el.foundElement = true;
@@ -141,7 +141,7 @@ class Game {
                             setTimeout(() => {
                                 this.modalCanvas.style.visibility = 'hidden'; 
                                 this.modalCanvas.classList.remove('correct');
-                            },2000);
+                            },4000);
                         }                        
                     }
                 }); 
@@ -169,7 +169,7 @@ class Game {
             setTimeout(() => {
                 this.modalCanvas.style.visibility = 'hidden';
                 this.modalCanvas.classList.remove('error');
-            },1000);
+            },4000);
         }
     }
 
