@@ -8,13 +8,15 @@ class Game {
     this.player = null;
     this.timerIntervalId;
     this.printTimerId;
-    // this.scoreElement = undefined;
-    // this.timeElement = undefined;
+    this.scoreElement = undefined;
+    this.timeElement = undefined;
+    this.combinationsElement = undefined;
+    this.totalCombinationsElement = undefined;
+    this.modalCanvas = undefined;
     this.mouseClickPosition = [];
     this.totalElementsArr = [];
     this.selectedElements = [];
     this.points = 40; //DELETE IN FUTURE -> INCLUDE IN ELEMENTS DATASET AS AN ATTRIBUTE (DIFF ELEMENTS WILL GIVE DIFF POINTS)
-    this.status = "start"; //gameOver (timeout), winGame (all combinations in time)
   }
 
   start() {
@@ -46,7 +48,7 @@ class Game {
       } else if (this.timer.timeLeft < 0) {
         this.timer.stop();
         clearInterval(this.printTimerId);
-        this.gameOver();
+        this.gameOver('lose');
       }
     }, 1);
 
@@ -127,9 +129,19 @@ class Game {
               // Display discovered element in modal-canvas div
               message = `You've discovered ${el.name} combining ${element1.name} and ${element2.name}`;
               this.showModal("correct", message);
+              //TODO
+              //Check if all the elements are found + endGame + status win
+              if (this.checkFoundAll()){
+                let elementsFound = this.totalElementsArr.filter((el) => el.foundElement).length;
+                this.player.updateElementsFound(elementsFound);
+                this.gameOver('win');
+              }
             }
           }
         });
+        // Clear elements selection
+      this.selectedElements = [];
+      this.updateGameScreen();
       } else {
         //Wrong combination discount time
         this.timer.timeLeft = this.timer.timeLeft - 20;
@@ -183,9 +195,14 @@ class Game {
     }, 4000);
   }
 
-  gameOver() {
-    this.status = "gameOver";
-    this.player.updateTime("00:00");
-    endGame(this.player);
+  checkFoundAll() {
+    return this.totalElementsArr.filter((el) => el.foundElement).length === this.totalElementsArr.length;
+  }
+
+  gameOver(status) {
+    if (status === 'lose') {
+      this.player.updateTime("00:00");
+    }
+    endGame(status, this.player);
   }
 }
