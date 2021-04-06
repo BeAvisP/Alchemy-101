@@ -152,8 +152,13 @@ class Game {
   updateGameScreen() {
     //Clear and redraw canvas
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.totalElementsArr.forEach((el, index) =>
-      el.drawElement(index, this.totalElementsArr.length)
+    let yRow = 0;
+    this.totalElementsArr.forEach((el, index) => {
+      if (index % 5 === 0) {
+        yRow++;
+      }
+      el.drawElement(index, yRow);
+    }
     );
 
     //Update combinations counter
