@@ -67,14 +67,40 @@ body {
 }
 
 .canvas-container{
-    width: 100vw;
+    /* width: 100vw;
+    height: 100vh; */
+    width: 1000px;
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 0 auto;
+    position: relative;
 }
 
 .canvas-container canvas {
     box-shadow: 3px 3px 20px 0px #000;
     background-color: #00000075;
+}
+
+.modal-canvas {
+    width: 70%;
+    border-radius: 5px;
+    position: absolute;
+    top: 15%;
+    /* bottom: 15%; */
+    background: #2d3336;
+    visibility: hidden;
+    font-size: 2.5rem;
+    text-align: center;
+}
+
+.modal-canvas.correct {
+    border: 1px solid maroon;
+    color: green;
+}
+
+.modal-canvas.error {
+    border: 1px solid maroon;
+    color: red;
 }

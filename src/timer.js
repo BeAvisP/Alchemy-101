@@ -1,6 +1,6 @@
 class Timer {
     constructor() {
-        this.timeLeft = 60; //seconds
+        this.timeLeft = 260; //seconds
         this.intervalId;
     }
 
@@ -15,9 +15,9 @@ class Timer {
     update(){
         this.timeLeft = this.timeLeft - 1;
         if(this.timeLeft >= 0) {
-            console.log(this.timeLeft);
+            // console.log(this.timeLeft);
         } else {
-            console.log("Timeout");
+            // console.log("Timeout");
         }
     }
 

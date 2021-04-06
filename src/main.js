@@ -59,6 +59,7 @@ const createGameScreen = () =>{
             </div>
             <div class="canvas-container">
                 <canvas></canvas>
+                <div class="modal-canvas"></div>
             </div>            
         </main>
     `);
