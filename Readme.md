@@ -16,9 +16,9 @@ Single player game, the player must select two elements (click) and combine them
 - Create animations for new alements found.
 - Drag and Drop (mouse support + collision)
 
-## Data structure
+##  Data structure
 
-main.js
+### main.js
 ```
 const game = new Game();
 const splashScreen;
@@ -38,234 +38,232 @@ removeEndGameScreen(){}
 
 startGame(){}
 endGame(){}
-
 ```
 
-game.js
+### game.js
 ```
 Class Game(gameScreen){
-    this.gameScreen = gameScreen;
-    this.canvas = null;
-    this.ctx = null;
-    this.elementsDataset = new ElementsData().elementsList;
-    this.timer = new Timer();
-    this.player = null;
-    this.timerIntervalId;
-    this.printTimerId;
-    this.scoreElement = undefined;
-    this.timeElement = undefined;
-    this.combinationsElement = undefined;
-    this.totalCombinationsElement = undefined;
-    this.modalCanvas = undefined;
-    this.mouseClickPosition = [];
-    this.totalElementsArr = [];
-    this.selectedElements = [];
-    this.points = 40;
+  this.gameScreen = gameScreen;
+  this.canvas = null;
+  this.ctx = null;
+  this.elementsDataset = new ElementsData().elementsList;
+  this.timer = new Timer();
+  this.player = null;
+  this.timerIntervalId;
+  this.printTimerId;
+  this.scoreElement = undefined;
+  this.timeElement = undefined;
+  this.combinationsElement = undefined;
+  this.totalCombinationsElement = undefined;
+  this.modalCanvas = undefined;
+  this.mouseClickPosition = [];
+  this.totalElementsArr = [];
+  this.selectedElements = [];
+  this.points = 40;
 
-    start(){}
+  start(){}
 
-    handleKeyDown(){}
+  handleKeyDown(){}
 
-    checkElementSelection(){}
+  checkElementSelection(){}
 
-    combineElements(){}
+  combineElements(){}
 
-    updateGameScreen(){}
+  updateGameScreen(){}
 
-    showModal(){}
+  showModal(){}
 
-    checkFoundAll(){}
+  checkFoundAll(){}
 
-    gameOver(){}    
+  gameOver(){}    
 }
 ```
 
-element.js
+### element.js
 ```
 Class Element(){
-    let getElement = elements.filter((el) => el.name === name)[0];
+  let getElement = elements.filter((el) => el.name === name)[0];
 
-    this.name = getElement.name;
-    this.foundElement = getElement.foundElement;
-    this.combinations = getElement.combinations;
-    this.imgSrc = getElement.imgSrc;
+  this.name = getElement.name;
+  this.foundElement = getElement.foundElement;
+  this.combinations = getElement.combinations;
+  this.imgSrc = getElement.imgSrc;
 
-    this.canvas = canvas;
-    this.ctx = this.canvas.getContext("2d");
-    this.imagePosition = [];
-    this.imgSize = 100;
-    this.initX = 50;
-    this.initY = 50;
+  this.canvas = canvas;
+  this.ctx = this.canvas.getContext("2d");
+  this.imagePosition = [];
+  this.imgSize = 100;
+  this.initX = 50;
+  this.initY = 50;
 
-    drawElement(){}
-    
-    drawSelection(){}
-    
-    didGetClick(){}
+  drawElement(){}
+  
+  drawSelection(){}
+  
+  didGetClick(){}
 
-    areCombinable(element){}
+  areCombinable(element){}
 
-    getCombination(element){}
+  getCombination(element){}
 }
 ```
 
-player.js
+### player.js
 ```
 Class Player {
-    this.name = name;
-    this.time = '';
-    this.score = 0;
-    this.elementsFound = 0;
+  this.name = name;
+  this.time = '';
+  this.score = 0;
+  this.elementsFound = 0;
 
-    updateScore(points){}
+  updateScore(points){}
 
-    updateElementsFound(foundElements){}
+  updateElementsFound(foundElements){}
 
-    updateTime(timeStr){}
+  updateTime(timeStr){}
 }
 ```
 
-timer.js
+### timer.js
 ```
 Class Timer {
-    this.timeLeft = 180sec;
-    this.intervalId;
+  this.timeLeft = 180sec;
+  this.intervalId;
 
-    start(){}
+  start(){}
 
-    stop(){}
+  stop(){}
 
-    update(){}
+  update(){}
 
-    getMinutes(){}
+  getMinutes(){}
 
-    getSeconds(){}
+  getSeconds(){}
 
-    formatTimer(){}
+  formatTimer(){}
 
-    getStringTimer(){}
+  getStringTimer(){}
 }
 ```
 
-Dataset:
+### Dataset:
 
-  ```
-  elementsList = [
+```
+elementsList = [
+  {
+    name: "water",
+    foundElement: true,
+    imgSrc: "assets/images/water.png",
+    combinations: [
       {
-        name: "water",
-        foundElement: true,
-        imgSrc: "assets/images/water.png",
-        combinations: [
-          {
-            element: "fire",
-            result: "steam",
-          },
-          {
-            element: "earth",
-            result: "mud",
-          },
-          {
-            element: "air",
-            result: "mist",
-          },
-        ],
+        element: "fire",
+        result: "steam",
       },
       {
-        name: "fire",
-        foundElement: true,
-        imgSrc: "assets/images/fire.png",
-        combinations: [
-          {
-            element: "water",
-            result: "steam",
-          },
-          {
-            element: "earth",
-            result: "lava",
-          },
-          {
-            element: "air",
-            result: "smoke",
-          },
-        ],
+        element: "earth",
+        result: "mud",
       },
       {
-        name: "air",
-        foundElement: true,
-        imgSrc: "assets/images/air.png",
-        combinations: [
-          {
-            element: "water",
-            result: "mist",
-          },
-          {
-            element: "earth",
-            result: "dust",
-          },
-          {
-            element: "fire",
-            result: "smoke",
-          },
-        ],
+        element: "air",
+        result: "mist",
+      },
+    ],
+  },
+  {
+    name: "fire",
+    foundElement: true,
+    imgSrc: "assets/images/fire.png",
+    combinations: [
+      {
+        element: "water",
+        result: "steam",
       },
       {
-        name: "earth",
-        foundElement: true,
-        imgSrc: "assets/images/earth.png",
-        combinations: [
-          {
-            element: "water",
-            result: "mud",
-          },
-          {
-            element: "air",
-            result: "dust",
-          },
-          {
-            element: "fire",
-            result: "lava",
-          },
-        ],
+        element: "earth",
+        result: "lava",
       },
       {
-        name: "steam",
-        foundElement: false,
-        imgSrc: "assets/images/steam.png",
-        combinations: [],
+        element: "air",
+        result: "smoke",
       },
-      { 
-        name: "mud",
-        foundElement: false,
-        imgSrc: "assets/images/mud.png",
-        combinations: [],
+    ],
+  },
+  {
+    name: "air",
+    foundElement: true,
+    imgSrc: "assets/images/air.png",
+    combinations: [
+      {
+        element: "water",
+        result: "mist",
       },
       {
-        name: "mist",
-        foundElement: false,
-        imgSrc: "assets/images/mist.png",
-        combinations: [],
+        element: "earth",
+        result: "dust",
       },
       {
-        name: "lava",
-        foundElement: false,
-        imgSrc: "assets/images/lava.png",
-        combinations: [],
+        element: "fire",
+        result: "smoke",
+      },
+    ],
+  },
+  {
+    name: "earth",
+    foundElement: true,
+    imgSrc: "assets/images/earth.png",
+    combinations: [
+      {
+        element: "water",
+        result: "mud",
       },
       {
-        name: "smoke",
-        foundElement: false,
-        imgSrc: "assets/images/smoke.png",
-        combinations: [],
+        element: "air",
+        result: "dust",
       },
       {
-        name: "dust",
-        foundElement: false,
-        imgSrc: "assets/images/dust.png",
-        combinations: [],
-      }
-    ]
-
-  ```
+        element: "fire",
+        result: "lava",
+      },
+    ],
+  },
+  {
+    name: "steam",
+    foundElement: false,
+    imgSrc: "assets/images/steam.png",
+    combinations: [],
+  },
+  { 
+    name: "mud",
+    foundElement: false,
+    imgSrc: "assets/images/mud.png",
+    combinations: [],
+  },
+  {
+    name: "mist",
+    foundElement: false,
+    imgSrc: "assets/images/mist.png",
+    combinations: [],
+  },
+  {
+    name: "lava",
+    foundElement: false,
+    imgSrc: "assets/images/lava.png",
+    combinations: [],
+  },
+  {
+    name: "smoke",
+    foundElement: false,
+    imgSrc: "assets/images/smoke.png",
+    combinations: [],
+  },
+  {
+    name: "dust",
+    foundElement: false,
+    imgSrc: "assets/images/dust.png",
+    combinations: [],
+  }
+]
+```
 
 ## States y States Transitions
 
@@ -274,10 +272,6 @@ Definition of the different states and their transition (transition functions)
 - splashScreen
 - gameScreen
 - endGameScreen
-
-## Task
-
-- 
 
 ## Links
 
@@ -288,7 +282,7 @@ Definition of the different states and their transition (transition functions)
 ### Git
 
 URls for the project repo and deploy
-[Link Repo](http://github.com)
+[Link Repo](https://github.com/BeAvisP/my-alchemy-game) || 
 [Link Deploy](http://github.com)
 
 ### Slides
