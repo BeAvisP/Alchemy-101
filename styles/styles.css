@@ -61,8 +61,19 @@ body {
     font-size: 1.25rem;
     font-family: 'MeriendaOne-Regular';
     background-color: transparent;
-    border: 3px solid darkred;
+    border: 3px solid #931C23;
     border-radius: 30px;
+    color: #931C23;
+}
+
+.splash-screen button:hover, .end-screen button:hover{
+    background-color: #471E04;
+    border: 3px solid #FDF5D3;
+    color: #FDF5D3;
+}
+
+.splash-screen button:focus, .end-screen button:focus {
+    outline: 0;
 }
 
 /* ---- GameScreen ---- */
