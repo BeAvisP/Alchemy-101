@@ -10,11 +10,10 @@ Single player game, the player must select two elements (click) and combine them
 
 ## Backlog
 
+- Points system adjust depending on the element discover.
+- Paginate between canvas to show more elements.
 - Create dataset of all the elements (bbdd).
-- Implement game logic for the combinations.
-- Add background music.
 - Create animations for new alements found.
-- Bigger database
 - Drag and Drop (mouse support + collision)
 
 ## Data structure
@@ -26,6 +25,8 @@ const splashScreen;
 const gameScreen;
 const endGameScreen; //GameOver or Win screen
 
+domBuilder(){}
+
 createSplashScreen(){}
 removeSplashScreen(){}
 
@@ -35,54 +36,92 @@ removeGameScreen(){}
 createEndGameScreen(){}
 removeEndGameScreen(){}
 
-domBuilder(){}
+startGame(){}
+endGame(){}
+
 ```
 
 game.js
 ```
 Class Game(gameScreen){
-    this.canvas;
-    this.ctx;
-    this.gameScreen;
-    this.timeIsOut = false;
-    this.score = 0;
-    this.discoveredElements = [];
-    this.allElements = [];
+    this.gameScreen = gameScreen;
+    this.canvas = null;
+    this.ctx = null;
+    this.elementsDataset = new ElementsData().elementsList;
+    this.timer = new Timer();
+    this.player = null;
+    this.timerIntervalId;
+    this.printTimerId;
+    this.scoreElement = undefined;
+    this.timeElement = undefined;
+    this.combinationsElement = undefined;
+    this.totalCombinationsElement = undefined;
+    this.modalCanvas = undefined;
+    this.mouseClickPosition = [];
+    this.totalElementsArr = [];
     this.selectedElements = [];
+    this.points = 40;
 
     start(){}
 
-    endGame(){}
-
     handleKeyDown(){}
 
-    updateDiscoveredElements(){}
-
-    showClickedElements(){}
-
-    removeClickedElements(){}
+    checkElementSelection(){}
 
     combineElements(){}
+
+    updateGameScreen(){}
+
+    showModal(){}
+
+    checkFoundAll(){}
+
+    gameOver(){}    
 }
 ```
 
 element.js
 ```
 Class Element(){
-    this.name = '';
-    this.combinations = [];
+    let getElement = elements.filter((el) => el.name === name)[0];
 
-    drawElement()
-    isCombinable(element){} //Check if two elements can combine, return new element
+    this.name = getElement.name;
+    this.foundElement = getElement.foundElement;
+    this.combinations = getElement.combinations;
+    this.imgSrc = getElement.imgSrc;
+
+    this.canvas = canvas;
+    this.ctx = this.canvas.getContext("2d");
+    this.imagePosition = [];
+    this.imgSize = 100;
+    this.initX = 50;
+    this.initY = 50;
+
+    drawElement(){}
+    
+    drawSelection(){}
+    
+    didGetClick(){}
+
+    areCombinable(element){}
+
+    getCombination(element){}
 }
 ```
 
 player.js
 ```
 Class Player {
-    this.name;
-    this.time;
-    this.score;
+    this.name = name;
+    this.time = '';
+    this.score = 0;
+    this.elementsFound = 0;
+
+    updateScore(points){}
+
+    updateElementsFound(foundElements){}
+
+    updateTime(timeStr){}
 }
 ```
 
@@ -90,6 +129,21 @@ timer.js
 ```
 Class Timer {
     this.timeLeft = 180sec;
+    this.intervalId;
+
+    start(){}
+
+    stop(){}
+
+    update(){}
+
+    getMinutes(){}
+
+    getSeconds(){}
+
+    formatTimer(){}
+
+    getStringTimer(){}
 }
 ```
 
@@ -219,28 +273,11 @@ Definition of the different states and their transition (transition functions)
 
 - splashScreen
 - gameScreen
-- gameoverScreen / winScreen
+- endGameScreen
 
 ## Task
 
-- Element - Define class and properties
-- Element - isCombinable
-- Main - Define properties
-- Main - createSplashScreen
-- Main - removeSplashScreen
-- Main - createGameScreen
-- Main - removeGameScreen
-- Main - createEndGameScreen
-- Main - removeEndGameScreen
-- Main - addEventListeners
-- Main - domBuilder
-- Game - start
-- Game - endGame
-- Game - handleKeyDown
-- Game - updateDiscoveredElements
-- Game - showClickedElements
-- Game - removeClickedElements
-- Game - combineElements
+- 
 
 ## Links
 
