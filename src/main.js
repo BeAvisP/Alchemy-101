@@ -4,40 +4,43 @@ let gameScreen;
 let endGameScreen;
 
 //Create DOM elements from a string
-const buildDom = (htmlString) =>{
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = htmlString;
-    return tempDiv.children[0];
-}
+const buildDom = (htmlString) => {
+  const tempDiv = document.createElement("div");
+  tempDiv.innerHTML = htmlString;
+  return tempDiv.children[0];
+};
 
 //SplashScreen create/remove
-const createSplashScreen = () =>{
-    //HTML SplashScreen
-    splashScreen = buildDom(`
+const createSplashScreen = () => {
+  //HTML SplashScreen
+  splashScreen = buildDom(`
         <main class="splash-screen">
             <h1>My Alchemy Book</h1>
             <div>
                 <p>Instructions</p>
             </div>
+            <div>
+                <input id="name" type="text" autocomplete="off">
+            </div>
             <button>Start</button>
         </main>
     `);
-    document.body.appendChild(splashScreen);
+  document.body.appendChild(splashScreen);
 
-    //Add eventListener to HTML button
-    const startButton = splashScreen.querySelector('button');
+  //Add eventListener to HTML button
+  const startButton = splashScreen.querySelector("button");
 
-    startButton.addEventListener('click', startGame);
-}
+  startButton.addEventListener("click", startGame);
+};
 
-const removeSplashScreen = () =>{
-    splashScreen.remove();
-}
+const removeSplashScreen = () => {
+  splashScreen.remove();
+};
 
 //GameScreen create/remove
-const createGameScreen = () =>{
-    //HTML GameScreen
-    gameScreen = buildDom(`
+const createGameScreen = () => {
+  //HTML GameScreen
+  gameScreen = buildDom(`
         <main class="game game-container">
             <div class="status-container">
                 <div class="time-container">
@@ -68,19 +71,19 @@ const createGameScreen = () =>{
             </div>            
         </main>
     `);
-    document.body.appendChild(gameScreen);
+  document.body.appendChild(gameScreen);
 
-    return gameScreen;
-}
+  return gameScreen;
+};
 
-const removeGameScreen = () =>{
-    gameScreen.remove();
-}
+const removeGameScreen = () => {
+  gameScreen.remove();
+};
 
 //EndGameScreen create/remove
-const createEndGameScreen = (status, player) =>{
-    const gameData = JSON.parse(localStorage.getItem("gameData"));
-    endGameScreen = buildDom(`
+const createEndGameScreen = (status, player) => {
+  const gameData = JSON.parse(localStorage.getItem("gameData"));
+  endGameScreen = buildDom(`
     <main class="end-screen">
         <h1>YOU ${status.toUpperCase()}</h1>
         <p>You found ${player.elementsFound} elements!!</p>
@@ -91,43 +94,44 @@ const createEndGameScreen = (status, player) =>{
         <button>Restart</button>
     </main>
     `);
-    
-    const button = endGameScreen.querySelector("button");
-    button.addEventListener("click", startGame);   
-    
-    //Order gameData by Score and get the top 5  
-    let sortedData = gameData.sort(( a, b ) => (b.score - a.score)).splice(0,5);
-    let rankingTable = endGameScreen.querySelector("#ranking-list");
 
-    for (let i = 0; i < sortedData.length; i++) {
-        var newLi = document.createElement("li");
-        newLi.innerHTML = `Score: ${sortedData[i].score} - Elements found: ${sortedData[i].elementsFound} - Time left: ${sortedData[i].time}`;
-        rankingTable.appendChild(newLi);
-    }
+  const button = endGameScreen.querySelector("button");
+  button.addEventListener("click", startGame);
 
-    document.body.appendChild(endGameScreen);
-}
+  //Order gameData by Score and get the top 5
+  let sortedData = gameData.sort((a, b) => b.score - a.score || b.time.localeCompare(a.time)).splice(0, 5);
+  let rankingTable = endGameScreen.querySelector("#ranking-list");
 
-const removeEndGameScreen = () =>{
-    endGameScreen.remove();
-}
+  for (let i = 0; i < sortedData.length; i++) {
+    var newLi = document.createElement("li");
+    newLi.innerHTML = `${sortedData[i].name} - Score: ${sortedData[i].score} - Elements found: ${sortedData[i].elementsFound} - Time left: ${sortedData[i].time}`;
+    rankingTable.appendChild(newLi);
+  }
+
+  document.body.appendChild(endGameScreen);
+};
+
+const removeEndGameScreen = () => {
+  endGameScreen.remove();
+};
 
 //Setting the game state - start or end game
 const startGame = () => {
-    removeSplashScreen();
-    if (endGameScreen) {
-        removeEndGameScreen();
-    }
-    createGameScreen();
+  let name = splashScreen.querySelector("#name");
+  removeSplashScreen();
+  if (endGameScreen) {
+    removeEndGameScreen();
+  }
+  createGameScreen();
 
-    //Start a new game instance and call start method
-    game = new Game(gameScreen);
-    game.start();   
-}
+  //Start a new game instance and call start method
+  game = new Game(gameScreen, name.value);
+  game.start();
+};
 
 const endGame = (status, player) => {
-    removeGameScreen();
-    createEndGameScreen(status, player);
-}
+  removeGameScreen();
+  createEndGameScreen(status, player);
+};
 
 window.addEventListener("load", createSplashScreen);

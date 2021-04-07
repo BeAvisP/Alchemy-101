@@ -1,6 +1,7 @@
 class Game {
-  constructor(gameScreen) {
+  constructor(gameScreen, playerName) {
     this.gameScreen = gameScreen;
+    this.playerName = playerName;
     this.canvas = null;
     this.ctx = null;
     this.elementsDataset = new ElementsData().elementsList;
@@ -53,7 +54,7 @@ class Game {
     }, 1);
 
     // Create the player.
-    this.player = new Player();
+    this.player = new Player(this.playerName);
 
     // Create array of elements from the elements objects dataset
     this.elementsDataset.forEach((el) => {
@@ -216,11 +217,11 @@ class Game {
   }
 
   //Save data in localStorage to create ranking
-  saveGameData(elementsFound, score, time) {
+  saveGameData(player) {
     // Get the string data from localStorage and create an array with the data stored
     let gameDataArr;
     const gameDataStr = localStorage.getItem("gameData");
-    const newGameData = { elementsFound: elementsFound, score: score, time: time };
+    const newGameData = { name: player.name, elementsFound: player.elementsFound, score: player.score, time: player.time };
 
     // If localStorage is empty, create empty array + add data
     if (!gameDataStr) {
@@ -242,7 +243,8 @@ class Game {
     if (status === 'lose') {
       this.player.updateTime("00:00");
     }
-    this.saveGameData(this.player.elementsFound, this.player.score, this.player.time);
+    console.log(this.player);
+    this.saveGameData(this.player);
     endGame(status, this.player);
   }
 }
