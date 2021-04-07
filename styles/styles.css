@@ -97,6 +97,14 @@ body {
     background-color: #0000008c;
 }
 
+.time-container .value.warning {
+    color: #b91520;
+}
+
+.time-container .value.error {
+    color: #b91520;
+}
+
 .canvas-container{
     width: 1000px;
     height: 85vh;

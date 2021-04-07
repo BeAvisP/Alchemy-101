@@ -42,6 +42,9 @@ class Game {
     this.timer.start();
     // Print timer
     this.printTimerId = setInterval(() => {
+      if (this.timer.timeLeft <= 30) {
+        this.timeElement.classList.add('warning');
+      }
       if (this.timer.timeLeft >= 0) {
         let timeStr = this.timer.getStringTimer();
         this.player.updateTime(this.timer.getStringTimer());
@@ -123,6 +126,8 @@ class Game {
               // Show error in modal-canvas div
               message = `${el.name.toUpperCase()} already discovered. <br> - 10 seconds`;
               this.showModal("error", message, el);
+              this.timeElement.classList.add('error');
+              setTimeout(() => {this.timeElement.classList.remove('error')}, 1000);
               // If new -> update foundElement to true + update player score.
             } else {
               el.foundElement = true;
@@ -149,6 +154,8 @@ class Game {
         this.player.updateTime(this.timer.getStringTimer());
 
         // Show error in modal-canvas div
+        this.timeElement.classList.add('error');
+        setTimeout(() => {this.timeElement.classList.remove('error')}, 1000);
         message = `${element1.name.toUpperCase()} and ${element2.name.toUpperCase()} <br> can't be combined. <br> - 20 seconds`;
         this.showModal("error", message);
       }
@@ -243,7 +250,6 @@ class Game {
     if (status === 'lose') {
       this.player.updateTime("00:00");
     }
-    console.log(this.player);
     this.saveGameData(this.player);
     endGame(status, this.player);
   }
