@@ -79,19 +79,33 @@ const removeGameScreen = () =>{
 
 //EndGameScreen create/remove
 const createEndGameScreen = (status, player) =>{
+    const gameData = JSON.parse(localStorage.getItem("gameData"));
     endGameScreen = buildDom(`
     <main class="end-screen">
         <h1>YOU ${status.toUpperCase()}</h1>
         <p>You found ${player.elementsFound} elements!!</p>
         <p>Your score: <span>${player.score}</span> </p>
         <p>Time left: ${player.time}</p>
+        <h2>Ranking</h2>
+        <ol id="ranking-list"></ol>
         <button>Restart</button>
     </main>
     `);
-    document.body.appendChild(endGameScreen);
     
     const button = endGameScreen.querySelector("button");
     button.addEventListener("click", startGame);   
+    
+    //Order gameData by Score and get the top 5  
+    let sortedData = gameData.sort(( a, b ) => (b.score - a.score)).splice(0,5);
+    let rankingTable = endGameScreen.querySelector("#ranking-list");
+
+    for (let i = 0; i < sortedData.length; i++) {
+        var newLi = document.createElement("li");
+        newLi.innerHTML = `Score: ${sortedData[i].score} - Elements found: ${sortedData[i].elementsFound} - Time left: ${sortedData[i].time}`;
+        rankingTable.appendChild(newLi);
+    }
+
+    document.body.appendChild(endGameScreen);
 }
 
 const removeEndGameScreen = () =>{

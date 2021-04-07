@@ -215,10 +215,34 @@ class Game {
     return this.totalElementsArr.filter((el) => el.foundElement).length === this.totalElementsArr.length;
   }
 
-  gameOver(status) {
+  //Save data in localStorage to create ranking
+  saveGameData(elementsFound, score, time) {
+    // Get the string data from localStorage and create an array with the data stored
+    let gameDataArr;
+    const gameDataStr = localStorage.getItem("gameData");
+    const newGameData = { elementsFound: elementsFound, score: score, time: time };
+
+    // If localStorage is empty, create empty array + add data
+    if (!gameDataStr) {
+      gameDataArr = [];
+      gameDataArr.push(newGameData);
+    // If localStorage has data, parse data then add new data
+    } else if (gameDataStr) {
+      gameDataArr = JSON.parse(gameDataStr);
+      gameDataArr.push(newGameData);
+    }
+
+    // Stringify gameDataArr
+    const updateGameDataStr = JSON.stringify(gameDataArr);
+    // Store back in localStorage
+    localStorage.setItem("gameData", updateGameDataStr);
+  }
+
+  gameOver(status) {    
     if (status === 'lose') {
       this.player.updateTime("00:00");
     }
+    this.saveGameData(this.player.elementsFound, this.player.score, this.player.time);
     endGame(status, this.player);
   }
 }
