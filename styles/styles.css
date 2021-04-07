@@ -56,6 +56,15 @@ body {
     flex-direction: column;
 }
 
+.splash-screen button, .end-screen button {
+    padding: 10px 50px;
+    font-size: 1.25rem;
+    font-family: 'MeriendaOne-Regular';
+    background-color: transparent;
+    border: 3px solid darkred;
+    border-radius: 30px;
+}
+
 /* ---- GameScreen ---- */
 .game-container {
   background-image: url("/assets/images/game-background-2.jpg");
