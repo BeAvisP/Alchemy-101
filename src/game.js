@@ -134,7 +134,7 @@ class Game {
               if (this.checkFoundAll()){
                 let elementsFound = this.totalElementsArr.filter((el) => el.foundElement).length;
                 this.player.updateElementsFound(elementsFound);
-                this.gameOver('win');
+                setTimeout(this.gameOver.bind(this), 4000, 'win')
               }
             }
           }
