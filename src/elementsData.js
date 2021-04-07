@@ -4,7 +4,7 @@ class ElementsData {
       {
         name: "water",
         foundElement: true,
-        imgSrc: "assets/images/water-drop.png",
+        imgSrc: "assets/images/water.png",
         combinations: [
           {
             element: "fire",

@@ -39,9 +39,6 @@ const createGameScreen = () =>{
     //HTML GameScreen
     gameScreen = buildDom(`
         <main class="game game-container">
-            <header>
-                <p>My Alchemy Book</p>
-            </header>
             <div class="status-container">
                 <div class="time-container">
                     <span class="label">Time left:</span>
@@ -59,7 +56,15 @@ const createGameScreen = () =>{
             </div>
             <div class="canvas-container">
                 <canvas></canvas>
-                <div class="modal-canvas"></div>
+                <div class="modal-canvas">
+                    <p class="message"></p>
+                    <img class="new-element" src="" />
+                    <div class="combination">
+                        <img class="first-element" src="" />
+                        <img class="sum-element" src="/assets/images/plus.png" />
+                        <img class="second-element" src="" />
+                    </div>
+                </div>
             </div>            
         </main>
     `);

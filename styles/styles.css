@@ -1,3 +1,11 @@
+@font-face {
+    font-family: 'BadScript-Regular';
+    src: url(/assets/fonts/BadScript-Regular.ttf);
+}
+@font-face {
+    font-family: 'MeriendaOne-Regular';
+    src: url(/assets/fonts/MeriendaOne-Regular.ttf);
+}
 /* ---- CSS reset ---- */
 
 html {
@@ -22,7 +30,7 @@ textarea:focus, input:focus{
 }
 
 body {
-    font-family: sans-serif;
+    font-family: 'MeriendaOne-Regular', sans-serif;
     font-weight: bold;
 }
 
@@ -63,19 +71,20 @@ body {
 .game-container .status-container {
     display: flex;
     justify-content: space-evenly;
-    font-size: 1.5rem;
+    font-size: 2rem;
+    padding: 30px 0;
+    color: #ddc576;
+    background-color: #0000008c;
 }
 
 .canvas-container{
-    /* width: 100vw;
-    height: 100vh; */
     width: 1000px;
-    height: 100vh;
+    height: 85vh;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto;
-    position: relative;
+    position: relative;    
 }
 
 .canvas-container canvas {
@@ -84,23 +93,57 @@ body {
 }
 
 .modal-canvas {
-    width: 70%;
-    border-radius: 5px;
+    width: 100vw;
+    height: 75vh;
     position: absolute;
-    top: 15%;
-    /* bottom: 15%; */
-    background: #2d3336;
+    top: 11%;
     visibility: hidden;
-    font-size: 2.5rem;
+    font-size: 2rem;
     text-align: center;
+    background-image: url(/assets/images/modal-background.png);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.modal-canvas .message {
+    width: 40%;
+    margin: 180px auto 30px auto;
+    text-shadow: 0 0 0px black;
+}
+
+.modal-canvas .new-element {
+    width: 100px;
+}
+
+.modal-canvas .combination {
+    visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+.modal-canvas .first-element {
+    width: 70px;
+    margin: 0 20px;
+}
+
+.modal-canvas .sum-element {    
+    width: 50px;
+    margin: 0 20px;
+}
+
+.modal-canvas .second-element {
+    width: 70px;
+    margin: 0 20px;
 }
 
 .modal-canvas.correct {
-    border: 1px solid maroon;
-    color: green;
+    color: #447054;
 }
 
 .modal-canvas.error {
-    border: 1px solid maroon;
-    color: red;
+    color: #931C23;
+    line-height: 80px;
 }

@@ -78,7 +78,7 @@ class Game {
     });
   }
 
-  // addEventListener click mouse
+  // get mouse click position
   handleMouseDown = (canvas, event) => {
     const rect = canvas.getBoundingClientRect();
     const x = event.clientX - rect.left;
@@ -100,7 +100,7 @@ class Game {
           } else {
             // Show error in modal-canvas div
             let message =
-              "You already have two elements selected. Right mouse click to combine";
+              "You have two elements. <br> Right click to combine.";
             this.showModal("error", message);
           }
         }
@@ -120,17 +120,17 @@ class Game {
             if (el.foundElement) {
               this.timer.timeLeft = this.timer.timeLeft - 10;
               // Show error in modal-canvas div
-              message = `You've already have discovered ${el.name}. Time left reduce by 10 seconds.`;
-              this.showModal("error", message);
+              message = `${el.name.toUpperCase()} already discovered. <br> - 10 seconds`;
+              this.showModal("error", message, el);
               // If new -> update foundElement to true + update player score.
             } else {
               el.foundElement = true;
               this.player.updateScore(this.points);
               // Display discovered element in modal-canvas div
-              message = `You've discovered ${el.name} combining ${element1.name} and ${element2.name}`;
-              this.showModal("correct", message);
+              message = `You've discovered ${el.name.toUpperCase()}`;
+              this.showModal('correct', message, el, element1, element2);
               //TODO
-              //Check if all the elements are found + endGame + status win
+              //Check if all the elements are found + call gameOver + status win
               if (this.checkFoundAll()){
                 let elementsFound = this.totalElementsArr.filter((el) => el.foundElement).length;
                 this.player.updateElementsFound(elementsFound);
@@ -148,7 +148,7 @@ class Game {
         this.player.updateTime(this.timer.getStringTimer());
 
         // Show error in modal-canvas div
-        message = `Wrong: ${element1.name} and ${element2.name} can't be combined. Time left reduce by 20 seconds.`;
+        message = `${element1.name.toUpperCase()} and ${element2.name.toUpperCase()} <br> can't be combined. <br> - 20 seconds`;
         this.showModal("error", message);
       }
       // Clear elements selection
@@ -156,7 +156,7 @@ class Game {
       this.updateGameScreen();
     } else {
       // Show error in modal-canvas div
-      message = "You must select two elements before combine!";
+      message = "Select two elements before combine!";
       this.showModal("error", message);
     }
   }
@@ -185,14 +185,30 @@ class Game {
     this.scoreElement.innerHTML = this.player.score;
   }
 
-  showModal(type, message) {
-    this.modalCanvas.classList.add(type);
-    this.modalCanvas.innerHTML = message;
+  showModal(type, message, newElement, element1, element2 ) {
+    if (type === 'error'){
+      this.modalCanvas.classList.add('error');
+      this.modalCanvas.querySelector(".message").innerHTML = message;
+      if (newElement){
+        this.modalCanvas.querySelector(".new-element").src = newElement.imgSrc;      
+      }else {
+        this.modalCanvas.querySelector(".new-element").src = "/assets/images/error.png";
+      }
+    } else if (type === 'correct'){
+      this.modalCanvas.classList.add('correct');
+      this.modalCanvas.querySelector(".combination").style.visibility = "visible";
+      this.modalCanvas.querySelector(".message").innerHTML = message;
+      this.modalCanvas.querySelector(".new-element").src = newElement.imgSrc;
+      this.modalCanvas.querySelector(".first-element").src = element1.imgSrc;
+      this.modalCanvas.querySelector(".second-element").src = element2.imgSrc;
+    }
     this.modalCanvas.style.visibility = "visible";
-    setTimeout(() => {
+      setTimeout(() => {
+      this.modalCanvas.querySelector(".combination").style.visibility = "hidden";
+      this.modalCanvas.classList.remove('error');
+      this.modalCanvas.classList.remove('correct');
       this.modalCanvas.style.visibility = "hidden";
-      this.modalCanvas.classList.remove(type);
-    }, 4000);
+      }, 4000);
   }
 
   checkFoundAll() {
