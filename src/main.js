@@ -56,7 +56,7 @@ const createGameScreen = () => {
   //HTML GameScreen
   gameScreen = buildDom(`
         <main class="game game-container">
-            <div class="status-container">
+            <div class="status-container noselect">
                 <div class="time-container">
                     <span class="label">Time left:</span>
                     <span class="value"></span>                    
@@ -107,12 +107,16 @@ const createEndGameScreen = (status, player) => {
   const gameData = JSON.parse(localStorage.getItem("gameData"));
   endGameScreen = buildDom(`
     <main class="end-screen">
-        <h1>YOU ${status.toUpperCase()}</h1>
-        <p>You found ${player.elementsFound} elements!!</p>
-        <p>Your score: <span>${player.score}</span> </p>
-        <p>Time left: ${player.time}</p>
+      <h1>YOU ${status.toUpperCase()}</h1>
+      <div class="end-screen-info">
+        <div class="end-score">
+          <p>You found ${player.elementsFound} elements!!</p>
+          <p>Your score: <span>${player.score}</span> </p>
+          <p>Time left: ${player.time}</p>
+        </div>
         <h2>Ranking</h2>
         <ol id="ranking-list"></ol>
+        </div>
         <button>Restart</button>
     </main>
     `);

@@ -35,6 +35,17 @@ body {
     font-weight: bold;
 }
 
+/* ---- Prevent text selection ---- */
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+  }
+
 /* ---- layout ---- */
 
 html,
@@ -54,7 +65,7 @@ body {
     
 }
 
-.splash-screen h1 {
+.splash-screen h1, .end-screen h1 {
     font-size: 5rem;
     font-family: 'MeriendaOne-Regular';
     text-align: center;
@@ -63,14 +74,14 @@ body {
     padding: 5vh 0;
 }
 
-.game-info {
+.game-info, .end-screen-info {
     background: #ffffffad;
     margin: 0 auto;
     background: #f6e2a6d6;
     box-shadow: 0 0 20px 0px black;
 }
 
-.game-info p {
+.game-info p, .end-screen-info p {
     font-size: 2rem;
     color: #111;
 }
@@ -127,6 +138,11 @@ body {
     border-radius: 10px;
     color: #931C23;
     margin: 25px;
+}
+
+.end-screen button {
+    margin: 0 auto;
+    display: flex;
 }
 
 .splash-screen button:hover, .end-screen button:hover{
@@ -237,4 +253,27 @@ body {
 .modal-canvas.error {
     color: #931C23;
     line-height: 80px;
+}
+
+/* ---- EndGameScreen ---- */
+.end-screen-info{
+    padding-bottom: 30px;
+    margin-bottom: 35px;
+}
+
+.end-screen-info .end-score{
+    display: flex;
+    justify-content: space-around;
+}
+
+.end-screen-info h2{
+    text-align: center;
+    font-family: 'MeriendaOne-Regular';
+}
+
+.end-screen #ranking-list{
+    text-align: center;
+    list-style-position: inside;
+    font-family: 'MeriendaOne-Regular';
+    font-weight: 200;
 }
