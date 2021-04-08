@@ -18,6 +18,7 @@ class Game {
     this.totalElementsArr = [];
     this.selectedElements = [];
     this.points = 40; //DELETE IN FUTURE -> INCLUDE IN ELEMENTS DATASET AS AN ATTRIBUTE (DIFF ELEMENTS WILL GIVE DIFF POINTS)
+    this.sound = new Sound();
   }
 
   start() {
@@ -131,7 +132,7 @@ class Game {
               // If new -> update foundElement to true + update player score.
             } else {
               el.foundElement = true;
-              this.player.updateScore(this.points);
+              this.player.updateScore(this.points);              
               // Display discovered element in modal-canvas div
               message = `You've discovered ${el.name.toUpperCase()}`;
               this.showModal('correct', message, el, element1, element2);
@@ -164,7 +165,7 @@ class Game {
       this.updateGameScreen();
     } else {
       // Show error in modal-canvas div
-      message = "Select two elements before combine!";
+      message = "Select two elements <br> before combine!";
       this.showModal("error", message);
     }
   }
@@ -195,14 +196,16 @@ class Game {
 
   showModal(type, message, newElement, element1, element2 ) {
     if (type === 'error'){
+      this.sound.playError();
       this.modalCanvas.classList.add('error');
       this.modalCanvas.querySelector(".message").innerHTML = message;
       if (newElement){
         this.modalCanvas.querySelector(".new-element").src = newElement.imgSrc;      
       }else {
-        this.modalCanvas.querySelector(".new-element").src = "/assets/images/error.png";
+        this.modalCanvas.querySelector(".new-element").src = "assets/images/error.png";
       }
     } else if (type === 'correct'){
+      this.sound.playCorrectCombination();
       this.modalCanvas.classList.add('correct');
       this.modalCanvas.querySelector(".combination").style.visibility = "visible";
       this.modalCanvas.querySelector(".message").innerHTML = message;
@@ -212,6 +215,8 @@ class Game {
     }
     this.modalCanvas.style.visibility = "visible";
       setTimeout(() => {
+        this.sound.stopCorrectCombination();
+        this.sound.stopError();
       this.modalCanvas.querySelector(".combination").style.visibility = "hidden";
       this.modalCanvas.classList.remove('error');
       this.modalCanvas.classList.remove('correct');

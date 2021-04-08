@@ -2,6 +2,7 @@ let game;
 let splashScreen;
 let gameScreen;
 let endGameScreen;
+const sound = new Sound();
 
 //Create DOM elements from a string
 const buildDom = (htmlString) => {
@@ -12,6 +13,7 @@ const buildDom = (htmlString) => {
 
 //SplashScreen create/remove
 const createSplashScreen = () => {
+    sound.playSplashBackground();
   //HTML SplashScreen
   splashScreen = buildDom(`
         <main class="splash-screen">
@@ -64,7 +66,7 @@ const createGameScreen = () => {
                     <img class="new-element" src="" />
                     <div class="combination">
                         <img class="first-element" src="" />
-                        <img class="sum-element" src="/assets/images/plus.png" />
+                        <img class="sum-element" src="assets/images/plus.png" />
                         <img class="second-element" src="" />
                     </div>
                 </div>
@@ -82,6 +84,14 @@ const removeGameScreen = () => {
 
 //EndGameScreen create/remove
 const createEndGameScreen = (status, player) => {
+    if (status === 'win') {
+        sound.playGameWin();
+    } else if (status === 'lose'){
+        sound.playGameLose();
+    }
+
+    //TODO PLAY SPLASH BACKGROUND MUSIC
+
   const gameData = JSON.parse(localStorage.getItem("gameData"));
   endGameScreen = buildDom(`
     <main class="end-screen">
@@ -117,19 +127,24 @@ const removeEndGameScreen = () => {
 
 //Setting the game state - start or end game
 const startGame = () => {
-  let name = splashScreen.querySelector("#name");
-  removeSplashScreen();
-  if (endGameScreen) {
-    removeEndGameScreen();
-  }
-  createGameScreen();
-
-  //Start a new game instance and call start method
-  game = new Game(gameScreen, name.value);
-  game.start();
+    let name = splashScreen.querySelector("#name");
+    if (name.value !== "") {
+        sound.stopSplashBackground();
+        sound.playGameBackground();
+      removeSplashScreen();
+      if (endGameScreen) {
+        removeEndGameScreen();
+      }
+      createGameScreen();
+    
+      //Start a new game instance and call start method
+      game = new Game(gameScreen, name.value);
+      game.start();
+    }
 };
 
 const endGame = (status, player) => {
+    sound.stopGameBackground();
   removeGameScreen();
   createEndGameScreen(status, player);
 };
