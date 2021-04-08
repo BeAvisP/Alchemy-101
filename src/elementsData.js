@@ -18,6 +18,10 @@ class ElementsData {
             element: "air",
             result: "mist",
           },
+          {
+            element: "cloud",
+            result: "rain"
+          }
         ],
       },
       {
@@ -37,12 +41,20 @@ class ElementsData {
             element: "air",
             result: "smoke",
           },
+          {
+            element: "mud",
+            result: "brick",
+          },
+          {
+            element: "dust",
+            result: "gunpowder"
+          }
         ],
       },
       {
         name: "air",
         foundElement: true,
-        imgSrc: "assets/images/wind-slap.png",
+        imgSrc: "assets/images/air.png",
         combinations: [
           {
             element: "water",
@@ -56,12 +68,24 @@ class ElementsData {
             element: "fire",
             result: "smoke",
           },
+          {
+            element: "lava",
+            result: "stone",
+          },
+          {
+            element: "air",
+            result: "sand"
+          },
+          {
+            element: "steam",
+            result: "cloud"
+          }
         ],
       },
       {
         name: "earth",
         foundElement: true,
-        imgSrc: "assets/images/stone-block.png",
+        imgSrc: "assets/images/earth.png",
         combinations: [
           {
             element: "water",
@@ -75,19 +99,37 @@ class ElementsData {
             element: "fire",
             result: "lava",
           },
+          {
+            element: "rain",
+            result: "plant"
+          },
+          {
+            element: "lava",
+            result: "volcano"
+          }
         ],
       },
       {
         name: "steam",
         foundElement: false,
         imgSrc: "assets/images/steam.png",
-        combinations: [],
+        combinations: [
+          {
+            element: "air",
+            result: "cloud"
+          }
+        ],
       },
       { 
         name: "mud",
         foundElement: false,
         imgSrc: "assets/images/mud.png",
-        combinations: [],
+        combinations: [
+          {
+            element: "fire",
+            result: "brick",
+          },
+        ],
       },
       {
         name: "mist",
@@ -99,18 +141,126 @@ class ElementsData {
         name: "lava",
         foundElement: false,
         imgSrc: "assets/images/lava.png",
-        combinations: [],
+        combinations: [
+          {
+            element: "air",
+            result: "stone"
+          },
+          {
+            element: "earth",
+            result: "volcano"
+          }
+        ],
       },
       {
         name: "smoke",
         foundElement: false,
         imgSrc: "assets/images/smoke.png",
-        combinations: [],
+        combinations: [
+          {
+            element: "rain",
+            result: "acid rain"
+          }
+        ],
       },
       {
         name: "dust",
         foundElement: false,
         imgSrc: "assets/images/dust.png",
+        combinations: [
+          {
+            element: "fire",
+            result: "gunpowder"
+          }
+        ],
+      },
+      { 
+        name: "stone",
+        foundElement: false,
+        imgSrc: "assets/images/stone.png",
+        combinations: [
+          {
+            element: "air",
+            result: "sand"
+          }
+        ],
+      },
+      {
+        name: "sand",
+        foundElement: false,
+        imgSrc: "assets/images/sand.png",
+        combinations: [
+          {
+            element: "plant",
+            result: "cactus"
+          }
+        ],
+      },
+      {
+        name: "brick",
+        foundElement: false,
+        imgSrc: "assets/images/brick.png",
+        combinations: [],
+      },
+      {
+        name: "cloud",
+        foundElement: false,
+        imgSrc: "assets/images/cloud.png",
+        combinations: [
+          {
+            element: "water",
+            result: "rain"
+          }
+        ],
+      },
+      {
+        name: "rain",
+        foundElement: false,
+        imgSrc: "assets/images/rain.png",
+        combinations: [
+          {
+            element: "earth",
+            result: "plant"
+          },
+          {
+            element: "smoke",
+            result: "acid rain"
+          }
+        ],
+      },
+      { 
+        name: "plant",
+        foundElement: false,
+        imgSrc: "assets/images/plant.png",
+        combinations: [
+          {
+            element: "sand",
+            result: "cactus"
+          }
+        ],
+      },
+      {
+        name: "volcano",
+        foundElement: false,
+        imgSrc: "assets/images/volcano.png",
+        combinations: [],
+      },
+      {
+        name: "acid rain",
+        foundElement: false,
+        imgSrc: "assets/images/acid-rain.png",
+        combinations: [],
+      },
+      {
+        name: "gunpowder",
+        foundElement: false,
+        imgSrc: "assets/images/gunpowder.png",
+        combinations: [],
+      },
+      {
+        name: "cactus",
+        foundElement: false,
+        imgSrc: "assets/images/cactus.png",
         combinations: [],
       },
     ];
