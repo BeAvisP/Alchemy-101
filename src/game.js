@@ -22,10 +22,16 @@ class Game {
   }
 
   start() {
-    this.scoreElement = this.gameScreen.querySelector(".score-container .value");
+    this.scoreElement = this.gameScreen.querySelector(
+      ".score-container .value"
+    );
     this.timeElement = this.gameScreen.querySelector(".time-container .value");
-    this.combinationsElement = this.gameScreen.querySelector(".combinations-container .value");
-    this.totalCombinationsElement = this.gameScreen.querySelector(".combinations-container .total");
+    this.combinationsElement = this.gameScreen.querySelector(
+      ".combinations-container .value"
+    );
+    this.totalCombinationsElement = this.gameScreen.querySelector(
+      ".combinations-container .total"
+    );
     this.modalCanvas = this.gameScreen.querySelector(".modal-canvas");
 
     // Get and create the canvas and it's context
@@ -44,7 +50,7 @@ class Game {
     // Print timer
     this.printTimerId = setInterval(() => {
       if (this.timer.timeLeft <= 30) {
-        this.timeElement.classList.add('warning');
+        this.timeElement.classList.add("warning");
       }
       if (this.timer.timeLeft >= 0) {
         let timeStr = this.timer.getStringTimer();
@@ -53,7 +59,7 @@ class Game {
       } else if (this.timer.timeLeft < 0) {
         this.timer.stop();
         clearInterval(this.printTimerId);
-        this.gameOver('lose');
+        this.gameOver("lose");
       }
     }, 1);
 
@@ -104,8 +110,7 @@ class Game {
             element.drawSelection();
           } else {
             // Show error in modal-canvas div
-            let message =
-              "You have two elements. <br> Right click to combine.";
+            let message = "You have two elements. <br> Right click to combine.";
             this.showModal("error", message);
           }
         }
@@ -127,36 +132,42 @@ class Game {
               // Show error in modal-canvas div
               message = `${el.name.toUpperCase()} already discovered. <br> - 10 seconds`;
               this.showModal("error", message, el);
-              this.timeElement.classList.add('error');
-              setTimeout(() => {this.timeElement.classList.remove('error')}, 1000);
+              this.timeElement.classList.add("error");
+              setTimeout(() => {
+                this.timeElement.classList.remove("error");
+              }, 1000);
               // If new -> update foundElement to true + update player score.
             } else {
               el.foundElement = true;
-              this.player.updateScore(this.points);              
+              this.player.updateScore(this.points);
               // Display discovered element in modal-canvas div
               message = `You've discovered ${el.name.toUpperCase()}`;
-              this.showModal('correct', message, el, element1, element2);
+              this.showModal("correct", message, el, element1, element2);
               //TODO
               //Check if all the elements are found + call gameOver + status win
-              if (this.checkFoundAll()){
-                let elementsFound = this.totalElementsArr.filter((el) => el.foundElement).length;
+              if (this.checkFoundAll()) {
+                let elementsFound = this.totalElementsArr.filter(
+                  (el) => el.foundElement
+                ).length;
                 this.player.updateElementsFound(elementsFound);
-                setTimeout(this.gameOver.bind(this), 4000, 'win')
+                setTimeout(this.gameOver.bind(this), 4000, "win");
               }
             }
           }
         });
         // Clear elements selection
-      this.selectedElements = [];
-      this.updateGameScreen();
+        this.selectedElements = [];
+        this.updateGameScreen();
       } else {
         //Wrong combination discount time
         this.timer.timeLeft = this.timer.timeLeft - 20;
         this.player.updateTime(this.timer.getStringTimer());
 
         // Show error in modal-canvas div
-        this.timeElement.classList.add('error');
-        setTimeout(() => {this.timeElement.classList.remove('error')}, 1000);
+        this.timeElement.classList.add("error");
+        setTimeout(() => {
+          this.timeElement.classList.remove("error");
+        }, 1000);
         message = `${element1.name.toUpperCase()} and ${element2.name.toUpperCase()} <br> can't be combined. <br> - 20 seconds`;
         this.showModal("error", message);
       }
@@ -179,11 +190,11 @@ class Game {
         yRow++;
       }
       el.drawElement(index, yRow);
-    }
-    );
+    });
 
     //Update combinations counter
-    let elementsFound = this.totalElementsArr.filter((el) => el.foundElement).length;
+    let elementsFound = this.totalElementsArr.filter((el) => el.foundElement)
+      .length;
     this.combinationsElement.innerHTML = elementsFound;
     this.totalCombinationsElement.innerHTML = this.totalElementsArr.length;
 
@@ -194,38 +205,47 @@ class Game {
     this.scoreElement.innerHTML = this.player.score;
   }
 
-  showModal(type, message, newElement, element1, element2 ) {
-    if (type === 'error'){
+  showModal(type, message, newElement, element1, element2) {
+    if (type === "error") {
       this.sound.playError();
-      this.modalCanvas.classList.add('error');
+      this.modalCanvas.classList.add("error");
       this.modalCanvas.querySelector(".message").innerHTML = message;
-      if (newElement){
-        this.modalCanvas.querySelector(".new-element").src = newElement.imgSrc;      
-      }else {
-        this.modalCanvas.querySelector(".new-element").src = "assets/images/error.png";
+      if (newElement) {
+        this.modalCanvas.querySelector(".new-element").src = newElement.imgSrc;
+      } else {
+        this.modalCanvas.querySelector(".new-element").src =
+          "assets/images/error.png";
       }
-    } else if (type === 'correct'){
+    } else if (type === "correct") {
       this.sound.playCorrectCombination();
-      this.modalCanvas.classList.add('correct');
-      this.modalCanvas.querySelector(".combination").style.visibility = "visible";
+      this.modalCanvas.classList.add("correct");
+      this.modalCanvas.querySelector(".combination").style.visibility =
+        "visible";
       this.modalCanvas.querySelector(".message").innerHTML = message;
       this.modalCanvas.querySelector(".new-element").src = newElement.imgSrc;
       this.modalCanvas.querySelector(".first-element").src = element1.imgSrc;
       this.modalCanvas.querySelector(".second-element").src = element2.imgSrc;
     }
     this.modalCanvas.style.visibility = "visible";
-      setTimeout(() => {
-        this.sound.stopCorrectCombination();
-        this.sound.stopError();
-      this.modalCanvas.querySelector(".combination").style.visibility = "hidden";
-      this.modalCanvas.classList.remove('error');
-      this.modalCanvas.classList.remove('correct');
+    setTimeout(() => {
+      this.sound.stopCorrectCombination();
+      this.sound.stopError();
+      this.modalCanvas.querySelector(".combination").style.visibility =
+        "hidden";
+      this.modalCanvas.classList.remove("error");
+      this.modalCanvas.classList.remove("correct");
       this.modalCanvas.style.visibility = "hidden";
-      }, 4000);
+      this.modalCanvas.querySelector(".new-element").src = "";
+      this.modalCanvas.querySelector(".first-element").src = "";
+      this.modalCanvas.querySelector(".second-element").src = "";
+    }, 4000);
   }
 
   checkFoundAll() {
-    return this.totalElementsArr.filter((el) => el.foundElement).length === this.totalElementsArr.length;
+    return (
+      this.totalElementsArr.filter((el) => el.foundElement).length ===
+      this.totalElementsArr.length
+    );
   }
 
   //Save data in localStorage to create ranking
@@ -233,13 +253,18 @@ class Game {
     // Get the string data from localStorage and create an array with the data stored
     let gameDataArr;
     const gameDataStr = localStorage.getItem("gameData");
-    const newGameData = { name: player.name, elementsFound: player.elementsFound, score: player.score, time: player.time };
+    const newGameData = {
+      name: player.name,
+      elementsFound: player.elementsFound,
+      score: player.score,
+      time: player.time,
+    };
 
     // If localStorage is empty, create empty array + add data
     if (!gameDataStr) {
       gameDataArr = [];
       gameDataArr.push(newGameData);
-    // If localStorage has data, parse data then add new data
+      // If localStorage has data, parse data then add new data
     } else if (gameDataStr) {
       gameDataArr = JSON.parse(gameDataStr);
       gameDataArr.push(newGameData);
@@ -251,8 +276,8 @@ class Game {
     localStorage.setItem("gameData", updateGameDataStr);
   }
 
-  gameOver(status) {    
-    if (status === 'lose') {
+  gameOver(status) {
+    if (status === "lose") {
       this.player.updateTime("00:00");
     }
     this.saveGameData(this.player);
