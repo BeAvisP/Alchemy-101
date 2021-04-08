@@ -21,7 +21,7 @@ class Element {
     if (this.foundElement) {
       img.src = this.imgSrc;
     } else {
-      img.src = "/assets/images/uncertainty.png";
+      img.src = "assets/images/uncertainty.png";
     }
 
     let newX = this.initX + 150 * index;
@@ -46,7 +46,7 @@ class Element {
     this.ctx.beginPath();
     this.ctx.lineWidth = 3;
     this.ctx.shadowBlur = 15;
-    this.ctx.shadowColor = "white";
+    this.ctx.shadowColor = "#fff";
     this.ctx.arc(
       this.imagePosition[0] + 50,
       this.imagePosition[1] + 50,
@@ -54,19 +54,13 @@ class Element {
       0 * Math.PI,
       2 * Math.PI
     );
-    this.ctx.stroke();
+    this.ctx.globalAlpha = 0.3;
+    this.ctx.fillStyle = "#fff";
+    this.ctx.filter = "blur(10px)";
+    this.ctx.fill();
     this.ctx.closePath();
     this.ctx.restore();
   }
-
-  //REMOVE?
-  // isOutOfCanvas(imgX) {
-  //     const screenRight = this.canvas.width;
-  //     if (screenRight <= imgX){
-  //         return true;
-  //     }
-  //     return false;
-  // }
 
   didGetClick(mouseClick) {
     //Get all sides of the img
