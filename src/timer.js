@@ -1,6 +1,6 @@
 class Timer {
   constructor() {
-    this.timeLeft = 60; //seconds
+    this.timeLeft = 260; //seconds
     this.intervalId;
   }
 

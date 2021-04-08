@@ -1,10 +1,10 @@
 @font-face {
     font-family: 'BadScript-Regular';
-    src: url(/assets/fonts/BadScript-Regular.ttf);
+    src: url("../assets/fonts/BadScript-Regular.ttf");
 }
 @font-face {
     font-family: 'MeriendaOne-Regular';
-    src: url(/assets/fonts/MeriendaOne-Regular.ttf);
+    src: url("../assets/fonts/MeriendaOne-Regular.ttf");
 }
 /* ---- CSS reset ---- */
 
@@ -30,7 +30,8 @@ textarea:focus, input:focus{
 }
 
 body {
-    font-family: 'MeriendaOne-Regular', sans-serif;
+    /* font-family: 'MeriendaOne-Regular', sans-serif; */
+    font-family: 'BadScript-Regular', sans-serif;
     font-weight: bold;
 }
 
@@ -44,7 +45,7 @@ body {
 
 /* ---- Splashscreen ---- */
 .splash-screen, .end-screen{
-    background-image: url("/assets/images/background.jpg");
+    background-image: url("../assets/images/background.jpg");
     width: 100%;
     height: 100vh;
     background-size: cover;
@@ -78,7 +79,7 @@ body {
 
 /* ---- GameScreen ---- */
 .game-container {
-  background-image: url("/assets/images/game-background-2.jpg");
+  background-image: url("../assets/images/game-background-2.jpg");
   width: 100%;
   height: 100vh;
   background-color: black;
@@ -128,7 +129,7 @@ body {
     visibility: hidden;
     font-size: 2rem;
     text-align: center;
-    background-image: url(/assets/images/modal-background.png);
+    background-image: url("../assets/images/modal-background.png");
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
