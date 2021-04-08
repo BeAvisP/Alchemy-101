@@ -30,7 +30,7 @@ class Sound {
 
 	playCorrectCombination() {
 		this.gameSuccess.currentTime = 0;
-		this.gameSuccess.volume = 0.5;
+		this.gameSuccess.volume = 0.3;
 		this.gameSuccess.play();
 	}
 	stopCorrectCombination() {

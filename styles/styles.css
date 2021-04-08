@@ -51,26 +51,88 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    
+}
+
+.splash-screen h1 {
+    font-size: 5rem;
+    font-family: 'MeriendaOne-Regular';
+    text-align: center;
+    color: #471E04;
+    margin: 0;
+    padding: 5vh 0;
+}
+
+.game-info {
+    background: #ffffffad;
+    margin: 0 auto;
+    background: #f6e2a6d6;
+    box-shadow: 0 0 20px 0px black;
+}
+
+.game-info p {
+    font-size: 2rem;
+    color: #111;
+}
+
+.splash-screen .game-info {
     display: flex;
-    justify-content: center;
+    /* justify-content: space-around; */
     align-items: center;
     flex-direction: column;
 }
 
+.game-instructions {
+    display: flex;
+    text-align: center;
+    width: 80vw;
+    justify-content: space-around;
+}
+
+.game-instructions .info-img {
+    width: 100px;
+}
+
+.game-start {
+    text-align: center;
+    padding: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.game-start input{
+    padding: 15px;
+    border-radius: 10px;
+    border-style: inset;
+    border-width: 3px;
+    background-color: #fff0;
+    border-color: #901c26;
+    color: #901c26;
+    font-size: 20px;
+}
+
+.game-start input::placeholder{
+    color: #901c26;
+}
+
+/* ---- Buttons ---- */
+
 .splash-screen button, .end-screen button {
-    padding: 10px 50px;
+    padding: 11px 50px;
     font-size: 1.25rem;
     font-family: 'MeriendaOne-Regular';
     background-color: transparent;
     border: 3px solid #931C23;
-    border-radius: 30px;
+    border-radius: 10px;
     color: #931C23;
+    margin: 25px;
 }
 
 .splash-screen button:hover, .end-screen button:hover{
     background-color: #471E04;
-    border: 3px solid #FDF5D3;
-    color: #FDF5D3;
+    border: 3px solid #f6e2a6;
+    color: #f6e2a6;
 }
 
 .splash-screen button:focus, .end-screen button:focus {

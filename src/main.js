@@ -17,14 +17,26 @@ const createSplashScreen = () => {
   //HTML SplashScreen
   splashScreen = buildDom(`
         <main class="splash-screen">
-            <h1>My Alchemy Book</h1>
-            <div>
-                <p>Instructions</p>
+            <h1>Alchemy 101</h1>
+            <div class="game-info">
+              <p>Enter the virtual laboratory and learn the art of transmutation.</p>
+              <div class="game-instructions">
+                  <div>
+                    <img class="info-img" src="assets/images/left-click.png" />
+                    <p>Select two elements</p>
+                  </div>
+                  <div>
+                    <img class="info-img" src="assets/images/right-click.png" />
+                    <p>Combine to create a new one</p>
+                  </div>
+              </div>
             </div>
-            <div>
-                <input id="name" type="text" autocomplete="off">
+            <div class="game-start">
+                <form>
+                <input id="name" type="text" autocomplete="off" placeholder="Enter your name" required>
+                <button>Start</button>
+                </form>
             </div>
-            <button>Start</button>
         </main>
     `);
   document.body.appendChild(splashScreen);
