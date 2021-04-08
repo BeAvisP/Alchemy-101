@@ -73,7 +73,7 @@ class ElementsData {
             result: "stone",
           },
           {
-            element: "air",
+            element: "stone",
             result: "sand"
           },
           {
