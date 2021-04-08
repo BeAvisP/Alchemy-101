@@ -13,7 +13,7 @@ const buildDom = (htmlString) => {
 
 //SplashScreen create/remove
 const createSplashScreen = () => {
-    sound.playSplashBackground();
+  sound.playSplashBackground();
   //HTML SplashScreen
   splashScreen = buildDom(`
         <main class="splash-screen">
@@ -96,13 +96,13 @@ const removeGameScreen = () => {
 
 //EndGameScreen create/remove
 const createEndGameScreen = (status, player) => {
-    if (status === 'win') {
-        sound.playGameWin();
-    } else if (status === 'lose'){
-        sound.playGameLose();
-    }
+  if (status === "win") {
+    sound.playGameWin();
+  } else if (status === "lose") {
+    sound.playGameLose();
+  }
 
-    //TODO PLAY SPLASH BACKGROUND MUSIC
+  //TODO PLAY SPLASH BACKGROUND MUSIC
 
   const gameData = JSON.parse(localStorage.getItem("gameData"));
   endGameScreen = buildDom(`
@@ -110,8 +110,8 @@ const createEndGameScreen = (status, player) => {
       <h1>YOU ${status.toUpperCase()}</h1>
       <div class="end-screen-info">
         <div class="end-score">
-          <p>You found ${player.elementsFound} elements!!</p>
           <p>Your score: <span>${player.score}</span> </p>
+          <p>You found ${player.elementsFound} elements!!</p>
           <p>Time left: ${player.time}</p>
         </div>
         <h2>Ranking</h2>
@@ -125,7 +125,9 @@ const createEndGameScreen = (status, player) => {
   button.addEventListener("click", startGame);
 
   //Order gameData by Score and get the top 5
-  let sortedData = gameData.sort((a, b) => b.score - a.score || b.time.localeCompare(a.time)).splice(0, 5);
+  let sortedData = gameData
+    .sort((a, b) => b.score - a.score || b.time.localeCompare(a.time))
+    .splice(0, 5);
   let rankingTable = endGameScreen.querySelector("#ranking-list");
 
   for (let i = 0; i < sortedData.length; i++) {
@@ -143,24 +145,24 @@ const removeEndGameScreen = () => {
 
 //Setting the game state - start or end game
 const startGame = () => {
-    let name = splashScreen.querySelector("#name");
-    if (name.value !== "") {
-        sound.stopSplashBackground();
-        sound.playGameBackground();
-      removeSplashScreen();
-      if (endGameScreen) {
-        removeEndGameScreen();
-      }
-      createGameScreen();
-    
-      //Start a new game instance and call start method
-      game = new Game(gameScreen, name.value);
-      game.start();
+  let name = splashScreen.querySelector("#name");
+  if (name.value !== "") {
+    sound.stopSplashBackground();
+    sound.playGameBackground();
+    removeSplashScreen();
+    if (endGameScreen) {
+      removeEndGameScreen();
     }
+    createGameScreen();
+
+    //Start a new game instance and call start method
+    game = new Game(gameScreen, name.value);
+    game.start();
+  }
 };
 
 const endGame = (status, player) => {
-    sound.stopGameBackground();
+  sound.stopGameBackground();
   removeGameScreen();
   createEndGameScreen(status, player);
 };
